@@ -15,7 +15,12 @@ app.use(express.urlencoded())
 
 //routers
 const usersRoute = require('./routes/userRoutes') 
+const jobsRoute = require('./routes/jobRoutes')
+const companyRoute = require('./routes/companyRoutes')
 app.use('/users', usersRoute)
+app.use('/jobs', jobsRoute)
+app.use('/companies', companyRoute)
+
 
 const PORT = process.env.PORT
 

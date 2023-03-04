@@ -21,6 +21,9 @@ const userSchema = new Schema({
     }
 
     //add in geolocation
+}, 
+{
+    timestamps:true
 })
 
 const User = mongoose.model("user", userSchema)

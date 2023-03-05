@@ -7,10 +7,15 @@ const userSchema = new Schema({
         required: [true, 'Name field is require']
     },
 
+    password: {
+        type: String,
+        required: [true, "User must have a password"]
+    },
+
     email: {
         type: String,
         require: [true, "Email must be defined"],
-        unique: [true, "Email must be unique"]
+        unique: [true, "Email already in use"]
     },
 
     role: {

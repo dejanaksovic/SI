@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 require('dotenv').config()
 
 //connecting to db
@@ -8,6 +9,10 @@ mongoose.Promise = global.Promise;
 
 //app
 const app = express()
+
+app.use(cors({
+    origin: 'http://127.0.0.1:5173'
+}))
 
 //Parsers
 app.use(express.json())

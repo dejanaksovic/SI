@@ -1,14 +1,34 @@
 const express = require('express')
 const router = express.Router();
+const {getUsers, createUser, deleteUser, updateUser, loginUser} = require('../controllers/usersController')
 
-const {getUsers, createUser, deleteUser, updateUser} = require('../controllers/usersController')
+//validation
+const tokenValidation = require('../middleware/tokenVerify')
+const {adminValidation} = require('../middleware/usersV')
 
-router.get('/:id?', getUsers)
+//@ GET /users
+//returns users or specified user with an id
+//[ADMIN, BOSS]
+router.get('/:id?',adminValidation, getUsers)
 
-router.post('/', createUser)
+//@POST /users
+//creates a new user
+//[ADMIN]
+router.post('/',tokenValidation, adminValidation, createUser)
 
-router.put('/:id', updateUser)
+//@PUT /users
+//updates the user with the given id
+//[ADMIN]
+router.put('/:id',tokenValidation, adminValidation, updateUser)
 
-router.delete('/:id', deleteUser)
+//@DELETE /users
+//deletes the user with the given id
+//[ADMIN]
+router.delete('/:id',tokenValidation, adminValidation, deleteUser)
+
+//@POST /users/login
+//logs in the user and responds with jwt
+//[]
+router.post("/login", loginUser)
 
 module.exports = router

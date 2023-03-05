@@ -115,9 +115,16 @@ const updateUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     const {email, password} = req.body
+    console.log(email, password)    
 
         try {
         const user = await User.findOne({email})
+        
+        if(!user) {
+            return res.status(404).json({
+                err: "The user with that email doesn't exist"
+            })
+        }
         
         if(!await bcrypt.compare(password, user.password)) {
             throw Error("Inalid credentials")

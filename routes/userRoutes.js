@@ -9,7 +9,7 @@ const {adminValidation} = require('../middleware/usersV')
 //@ GET /users
 //returns users or specified user with an id
 //[ADMIN, BOSS]
-router.get('/:id?',adminValidation, getUsers)
+router.get('/:id?',tokenValidation, adminValidation, getUsers)
 
 //@POST /users
 //creates a new user

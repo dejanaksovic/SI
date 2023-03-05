@@ -3,12 +3,28 @@ const router = express.Router();
 
 const {getJobs, updateJob, deleteJob, addJob} = require('../controllers/jobControllers')
 
-router.get('/:id?', getJobs)
+//validation
+const tokenValidation = require('../middleware/tokenVerify')
+const {adminValidation, bossValidation} = require('../middleware/usersV')
 
-router.post('/', addJob)
+//@GET /jobs
+//Returns the list of all the jobs or a job with specific id
+//[]
+router.get('/:id?',tokenValidation, getJobs)
 
-router.put('/:id', updateJob)
+//@POST /jobs
+//Adds a new job 
+//[ADMIN, BOSS]
+router.post('/',tokenValidation, bossValidation, addJob)
 
-router.delete('/:id', deleteJob)
+//@PUT /jobs
+//updates the job with the given id
+//[ADMIN, BOSS]
+router.put('/:id',tokenValidation, bossValidation, updateJob)
+
+//@DELETE /jobs
+//deletes the job with the given id
+//[ADMIN, BOSS]
+router.delete('/:id',tokenValidation, bossValidation, deleteJob)
 
 module.exports = router

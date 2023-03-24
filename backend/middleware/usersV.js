@@ -1,5 +1,5 @@
 const adminValidation = async (req, res, next) => {
-    const {role} = req
+    const {role} = req.user
 
     if(role!=="ADMIN")
         return res.status(401).json({
@@ -10,7 +10,9 @@ const adminValidation = async (req, res, next) => {
 }
 
 const bossValidation = async (req, res, next) => {
-    const {role} = req
+    const {role} = req.user
+
+    console.log(role)
 
     if(role === "USER") 
         return res.status(401).json({

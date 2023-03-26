@@ -1,23 +1,44 @@
-import {FaUser, FaKey} from "react-icons/fa"
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router";
+
+import { authContext } from "../context/authContext"
+
 import axios from "axios";
+
+import {FaUser, FaKey} from "react-icons/fa"
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('')
+
+    const { state, dispatch, url } = useContext(authContext)
+
+    const navigate = useNavigate()
+
     const onLogin = async (e) => {
-        e.preventDefault();
 
+        e.preventDefault()
+
+        setIsLoading(true)
         try {
-        const {data} = await axios.post("https://dvd-api.onrender.com/users/login", {email, password})
-        console.log(data);
+            const res = await axios.post(`${url}/users/login`, {
+                email, password
+            })
+            console.log(res.data);            
+            dispatch({type: "LOG_IN", payload: res.data})
+            setIsLoading(false)
         }
-
-        catch(error) {
-            const { response: data } = error;
-            console.log(data, error);
+        catch(err) {
+            if(err.response)
+            setError(err.response.data.err)
+            else {
+                setError(err.message)
+            }
         }
+        setIsLoading(false)
     }
     
     return (
@@ -46,8 +67,9 @@ const Login = () => {
                             onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
             </div>
-            <button onClick={onLogin} className="login-button">Pristupi</button>
-        </form>    
+            <button disabled={isLoading} onClick={onLogin} className="login-button">Pristupi</button>
+            <p style={{color: "red", fontSize: "1rem"}} >{error}</p>
+        </form>
     </div>
     );
 }

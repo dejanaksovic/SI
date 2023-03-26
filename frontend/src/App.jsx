@@ -7,6 +7,13 @@ import Jobs from "./pages/Jobs"
 import Job from "./pages/Job"
 import Companies from "./pages/Companies"
 import Company from "./pages/Company"
+import AddUserForm from "./pages/AddUserForm"
+import DeleteUserForm from "./pages/DeleteUserForm"
+import ChangeUserForm from "./pages/ChangeUserForm"
+
+//CONTEXTS
+import { AuthContextProvider } from "./context/authContext"
+import { UserContextProvider } from "./context/usersContext"
 
 // ROUTER
 import {
@@ -24,6 +31,9 @@ const router = createBrowserRouter(
       <Route path="login" element = { <LoginPage/> }/>
       <Route path="users" element = { <Users/> }/>
       <Route path="users/:id" element = { <User/> }/>
+      <Route path="users/add" element = { <AddUserForm/> }/>
+      <Route path="users/remove/:id" element = { <DeleteUserForm/> }/>
+      <Route path="users/change/:id" element= { <ChangeUserForm/> }/>
       <Route path="jobs" element = { <Jobs/> }/>
       <Route path="jobs/:id" element = { <Job/> }/>
       <Route path="companies" element = { <Companies/> }/>
@@ -36,7 +46,11 @@ const router = createBrowserRouter(
 function App() {
 
   return (
-    <RouterProvider router={router}/>
+    <AuthContextProvider>
+      <UserContextProvider>
+        <RouterProvider router={router}/>
+      </UserContextProvider>
+    </AuthContextProvider>
   )
 }
 

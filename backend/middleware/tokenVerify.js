@@ -22,7 +22,6 @@ const tokenValidation = async (req, res, next) => {
         const {id} = jwt.verify(token, process.env.SECRET)
         const user = await User.findById(id)
         req.user = user
-        console.log(req.user)
     }
 
     catch(err) {

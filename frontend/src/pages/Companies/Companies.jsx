@@ -1,7 +1,9 @@
+import Navbar from "../../components/Navbar";
+
 const Companies = () => {
     return ( 
         <div>
-            Companies!
+            <Navbar/>
         </div>
      );
 }

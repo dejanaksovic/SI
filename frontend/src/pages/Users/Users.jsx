@@ -2,11 +2,11 @@
 import { useEffect, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 //CONTEXTS
-import { authContext } from "../context/authContext";
-import { userContext } from "../context/usersContext"
+import { authContext } from "../../context/authContext";
+import { userContext } from "../../context/usersContext"
 //COMPONENTS
-import Navbar from "../components/Navbar"
-import UserCard from "../components/UserCard";
+import Navbar from "../../components/Navbar"
+import UserCard from "../../components/UserCard";
 import axios from "axios";
 
 import { FaSearch } from "react-icons/fa";
@@ -30,6 +30,11 @@ const Users = () => {
     }
 
     useEffect( () => {
+
+        if(usersState.users && usersState.users.count === 0) {
+            return
+        }
+
         const fetchUsers = async () => {
             try {
                 const res = await axios.get(`${url}/users`, {
@@ -68,7 +73,7 @@ const Users = () => {
                 <div className="users-container">
                     {
                        users.map ((e, i) => (
-                        <UserCard name = { e.name } id = { e.id } key = { i } email = { e.email } role = { e.role }/>
+                        <UserCard name = { e.name } id = { e._id } key = { i } email = { e.email } role = { e.role }/>
                        ))
                     }
                 </div>

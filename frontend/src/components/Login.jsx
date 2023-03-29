@@ -30,6 +30,7 @@ const Login = () => {
             console.log(res.data);            
             dispatch({type: "LOG_IN", payload: res.data})
             setIsLoading(false)
+            navigate('/')
         }
         catch(err) {
             if(err.response)

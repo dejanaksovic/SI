@@ -1,6 +1,19 @@
 import { FaUser } from "react-icons/fa";
+import { useState, useContext } from "react";
+import { authContext } from "../context/authContext"
+import { userContext } from "../context/usersContext";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserCard = ({name, email, role, id}) => {
+
+    const { dispatch } = useContext(userContext)
+    const { state, url } = useContext(authContext)
+
+    const [err, setErr] = useState(null)
+    const [loading, IsLoading] = useState(false)
+
+    const navigate = useNavigate()
 
     let color;
 
@@ -13,6 +26,25 @@ const UserCard = ({name, email, role, id}) => {
             break;
         default: 
             color = "green";
+    }
+
+    const deleteHandler = async (e) => {
+        try {
+            IsLoading(true)
+            const res = await axios.delete(`${url}/users/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${state.user.token}`
+                }
+            })
+
+            dispatch("DELETE_USER", { payload: id })
+
+            navigate('/')
+        }
+
+        catch(err) {
+            setErr(err.response.data.err)
+        }
     }
 
     return ( 
@@ -34,9 +66,9 @@ const UserCard = ({name, email, role, id}) => {
                     <a href={`/users/change/${id}`} className = "btn btn-warning" >
                         IZMENI
                     </a>
-                    <a href={`/users/remove/${id}`} className = "btn btn-danger" >
+                    <button disabled = { loading } onClick = { deleteHandler } className = "btn btn-danger" >
                         OBRISI
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

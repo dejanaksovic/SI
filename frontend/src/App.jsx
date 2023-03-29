@@ -1,19 +1,25 @@
 // PAGES
 import LoginPage from "./pages/LoginPage"
 import Home from "./pages/Home"
-import Users from "./pages/Users"
-import User from "./pages/User"
+
+// USERS
+import Users from "./pages/Users/Users"
+import User from "./pages/Users/User"
+import AddUserForm from "./pages/Users/AddUserForm"
+import ChangeUserForm from "./pages/Users/ChangeUserForm"
+
+// COMPANIES
+import Companies from "./pages/Companies/Companies"
+import Company from "./pages/Companies/Company"
+import AddCompany from "./pages/Companies/AddCompany"
+
 import Jobs from "./pages/Jobs"
 import Job from "./pages/Job"
-import Companies from "./pages/Companies"
-import Company from "./pages/Company"
-import AddUserForm from "./pages/AddUserForm"
-import DeleteUserForm from "./pages/DeleteUserForm"
-import ChangeUserForm from "./pages/ChangeUserForm"
 
 //CONTEXTS
 import { AuthContextProvider } from "./context/authContext"
 import { UserContextProvider } from "./context/usersContext"
+import { CompaniesContextProvider } from "./context/companiesContext"
 
 // ROUTER
 import {
@@ -32,12 +38,12 @@ const router = createBrowserRouter(
       <Route path="users" element = { <Users/> }/>
       <Route path="users/:id" element = { <User/> }/>
       <Route path="users/add" element = { <AddUserForm/> }/>
-      <Route path="users/remove/:id" element = { <DeleteUserForm/> }/>
       <Route path="users/change/:id" element= { <ChangeUserForm/> }/>
-      <Route path="jobs" element = { <Jobs/> }/>
-      <Route path="jobs/:id" element = { <Job/> }/>
       <Route path="companies" element = { <Companies/> }/>
       <Route path="companies/:id" element = { <Company/> }/>
+      <Route path="companies/add" element = { <AddCompany/>}/>
+      <Route path="jobs" element = { <Jobs/> }/>
+      <Route path="jobs/:id" element = { <Job/> }/>
     </Route>
   
   )
@@ -48,7 +54,9 @@ function App() {
   return (
     <AuthContextProvider>
       <UserContextProvider>
-        <RouterProvider router={router}/>
+        <CompaniesContextProvider>
+          <RouterProvider router={router}/>
+        </CompaniesContextProvider>
       </UserContextProvider>
     </AuthContextProvider>
   )

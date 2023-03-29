@@ -38,14 +38,18 @@ const getUsers = async (req, res) => {
 const createUser = async (req, res) => {
 
     const {name, email, role = "USER", password} = req.body
+
+    let hash = ""
     
     try {
     //Creatign or returning inside error
     const salt = await bcrypt.genSalt(12)
-    const hash = await bcrypt.hash(password, salt)
+    console.log(password, salt)
+    hash = await bcrypt.hash(password, salt)
     }
 
     catch(err) {
+        console.log(err)
         return res.status(400).json({
             err: err.message
         })

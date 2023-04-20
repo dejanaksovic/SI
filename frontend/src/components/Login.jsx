@@ -1,44 +1,15 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router";
-
-import { authContext } from "../context/authContext"
-
-import axios from "axios";
+import { useState } from "react";
+import { useLogin } from "../hooks/useLogin";
 
 import {FaUser, FaKey} from "react-icons/fa"
 
 const Login = () => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState('')
-
-    const { state, dispatch, url } = useContext(authContext)
-
-    const navigate = useNavigate()
-
-    const onLogin = async (e) => {
-
-        e.preventDefault()
-
-        setIsLoading(true)
-        try {
-            const res = await axios.post(`${url}/users/login`, {
-                email, password
-            })
-            console.log(res.data);            
-            dispatch({type: "LOG_IN", payload: res.data})
-            navigate('/')
-        }
-        catch(err) {
-            if(err.response)
-            setError(err.response.data.err)
-            else {
-                setError(err.message)
-            }
-        }
-        setIsLoading(false)
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const { error, loading, login } = useLogin()
+    
+    const handleLogin = async (email, password) => {
+        await login(email, password)
     }
     
     return (
@@ -67,7 +38,11 @@ const Login = () => {
                             onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
             </div>
-            <button disabled={isLoading} onClick={onLogin} className="login-button">Pristupi</button>
+            <button disabled={loading} onClick = { async (e) => {
+                e.preventDefault()
+                handleLogin(email, password)
+            }}
+            className="login-button">Pristupi</button>
             <p style={{color: "red", fontSize: "1rem"}} >{error}</p>
         </form>
     </div>

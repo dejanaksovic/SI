@@ -55,7 +55,7 @@ function App() {
     <AuthContextProvider>
       <UserContextProvider>
         <CompaniesContextProvider>
-          <RouterProvider router={router}/>
+          <RouterProvider router={router}></RouterProvider>
         </CompaniesContextProvider>
       </UserContextProvider>
     </AuthContextProvider>

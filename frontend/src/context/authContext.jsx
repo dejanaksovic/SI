@@ -22,9 +22,11 @@ const authReducer = (state, action) => {
 export const AuthContextProvider = ({children}) => {
     
     let prevUser = localStorage.getItem('user')
+
     if(prevUser) {
         prevUser = JSON.parse(prevUser)
     }
+    
     else {
         prevUser = null
     }

@@ -18,7 +18,12 @@ const companiesReducer = (state, action) => {
 
 export const CompaniesContextProvider = ({children}) => {
 
-    const [state, dispatch] = useReducer(companiesReducer, {companies: null})
+    let companies = localStorage.getItem('companies')
+
+    if(companies)
+        companies = JSON.parse(companies)
+
+    const [state, dispatch] = useReducer(companiesReducer, {companies})
 
     return ( 
         <companiesContext.Provider value={{state, dispatch}}>

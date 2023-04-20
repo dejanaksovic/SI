@@ -5,7 +5,7 @@ const useAuth = () => {
     const { state, dispatch, url } = useContext(authContext)
 
     if(!state)
-        throw Error("UseAUth must be used inside auth context")
+        throw Error("UseAuth must be used inside auth context")
 
     return  { state, dispatch, url }
 }

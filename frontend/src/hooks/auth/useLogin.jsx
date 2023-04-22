@@ -27,6 +27,7 @@ const useLogin = () => {
         }
 
         catch(err) {
+            console.log(err);
             if(err.response) {
                 console.log(err.response.data);
                 setError(err.response.data.err)

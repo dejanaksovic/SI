@@ -1,56 +1,21 @@
-import axios from "axios";
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useAddUser } from "../../hooks/users/useAddUser";
 import { useNavigate } from "react-router-dom";
-import { authContext } from "../../context/authContext"
-import { userContext } from "../../context/usersContext";
 
 const AddUserFrom = () => {
-
-    const { state: authState, url } = useContext(authContext)
-    const { dispatch } = useContext(userContext)
+    const navigate = useNavigate()
 
     const [ name, setName ] = useState("")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
     const [ role, setRole ] = useState("")
 
-    const [ error, setError ] = useState(null)
-    const [ loading, setIsLoading ] = useState(false)
-
-    const navigate = useNavigate()
+    const { error, loading, addUser } = useAddUser()
 
     const addHandler = async (e) => {
-        e.preventDefault()
-
-        setIsLoading(true)
-
-        console.log("ROLE:", role);
-
-        try {
-
-            const res = await axios.post(`${url}/users`, {
-                name,
-                email,
-                password,
-                role
-              }, {
-                headers: {
-                  Authorization: `Bearer ${authState.user.token}`
-                }
-              });
-
-            console.log(res);
-
-            dispatch("ADD_USER", { payload: res })
-
-            setIsLoading(false)
-            }
-
-        catch(err) {
-            setIsLoading(false)
-            console.log(err);
-        }
-
+        await addUser(name, email, password, role)
+        if (!error)
+            navigate('/users')
     }
 
     return ( 
@@ -70,15 +35,17 @@ const AddUserFrom = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="role">Titula</label>
-                    <select required id="role" className="form-select" onChange= { e => { setRole(e.target.value) }}>
+                    <select required id="role" className="form-select" value={role} onChange= { e => { setRole(e.target.value) }}>
                         <option value="ADMIN">ADMIN</option>
                         <option value="BOSS">SEF</option>
                         <option value="USER">KORISNIK</option>
                     </select>
                 </div>
-                <button disabled = {loading} onClick={ addHandler } className="btn btn-success d-block mx-auto mt-4">KREIRAJ</button>
+                <button disabled = {loading}  onClick={ addHandler } className="btn btn-success d-block mx-auto mt-4">KREIRAJ</button>
+                <form-group>
+                    <p className="text-sm text-danger">{error}</p>
+                </form-group>
             </form>
-            { error && (<p> { error } </p>) }
         </div>
      );
 }

@@ -18,7 +18,7 @@ import Job from "./pages/Job"
 
 //CONTEXTS
 import { AuthContextProvider } from "./context/authContext"
-import { UserContextProvider } from "./context/usersContext"
+import UserContextProvider from "./context/usersContext"
 import { CompaniesContextProvider } from "./context/companiesContext"
 
 // ROUTER
@@ -26,7 +26,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  Routes,
   RouterProvider,
 } from 'react-router-dom'
 

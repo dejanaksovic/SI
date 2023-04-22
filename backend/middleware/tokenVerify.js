@@ -37,6 +37,8 @@ const tokenValidation = async (req, res, next) => {
             return res.status(401).json({
                 err: "Korisnik sa tim id-em ne postoji. Ulogujte se ponovo"
             })
+
+        req.user = user
     }
 
     catch(err) {

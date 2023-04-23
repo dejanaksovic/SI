@@ -8,13 +8,21 @@ import UserCard from "../../../components/UserCard";
 import { FaSearch } from "react-icons/fa";
 import { useGetUsers } from "../../../hooks/users/useGetUsers";
 import { useUsersContext } from "../../../hooks/users/useUsersContext";
+import { useNavigate } from 'react-router-dom';
 
 
 const Users = () => {
+    const navigate = useNavigate()
 
     const { error, loading, getUsers } = useGetUsers()
     const { state: usersState } = useUsersContext()
     const [users, setUsers] = useState([])
+
+    const [filtersOn, setFiltersOn] = useState(false)
+
+    const handleAddClick = () => {
+        navigate('/users/add')
+    }
 
     useEffect( () => {
 
@@ -45,9 +53,19 @@ const Users = () => {
             <div className="text text-danger">
                 <h2>{error}</h2>
             </div>
+
+            <div className="users-title row">
+                <div className="text col">
+                    <h2>Korisnici <span>{users.length}</span></h2>
+                </div>
+                <div className="col d-flex justify-content-center gap-4 align-items-center">
+                    <div className="filter-trigger" onClick={ e => {setFiltersOn( (prevFiltersOn) => { return !prevFiltersOn } )} }>Filteri</div>
+                    <button className="btn btn-success" onClick={handleAddClick}> + Dodaj korisnika</button>
+                </div>
+            </div>
             
             { users.length !== 0 && <main className="users-main">
-                <div className="filter-container">
+                { filtersOn && <div className="filter-container" >
                     <input type="text" placeholder="Pretrazite po imenu"/>
                     <label htmlFor="role-search"></label>
                     <select name="" id="role-search">
@@ -58,7 +76,7 @@ const Users = () => {
                     <button>
                         <FaSearch />
                     </button>
-                </div>
+                </div> }
                 <div className="container users-container-main">
                     {
                         users.map ( (e, i ) => (

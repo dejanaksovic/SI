@@ -1,65 +1,40 @@
 import './style.css'
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { authContext } from "../../../context/authContext";
-import { userContext } from "../../../context/usersContext";
+import { useUsersContext } from '../../../hooks/users/useUsersContext';
+import Navbar from '../../../components/Navbar';
+import { useChangeUser } from '../../../hooks/users/useChangeUser';
 
 const ChangeUserForm = () => {
 
     const { id } = useParams()
-    const { state, url } = useContext(authContext)
-    const { dispatch } = useContext(userContext)
     const navigate = useNavigate()
+    const { state } = useUsersContext()
 
     const [user, setUser] = useState(null)
 
-    const [loading, isLoading] = useState(true)
-    const [err, setError] = useState(false)
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [role, setRole] = useState("")
 
-    const [name, setName] = useState()
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
+    const {error, loading, changeUser} = useChangeUser()
 
     const handleChange = async (e) => {
-        isLoading(true)
+        e.preventDefault()
 
-        try {
-            const res = await axios.put(`${url}/users/${id}`, {
-                name,
-                email,
-                password
-            },
-             {
-                headers: {
-                    Authorization: `Bearer ${state.user.token}`
-                }
-            })
-            navigate('/users')
-        }
-
-        catch(err) {
-            console.log(err);
-        }
-
-        isLoading(false)
+        changeUser(id, name , email, password, role)
     }
 
     useEffect( () => {
-        const fetchUser = async () => {
-            const res = await axios.get(`${url}/users/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${state.user.token}`
-                }
-            })
-            setUser(res.data.user)
-            isLoading(false)
-        }
-        fetchUser()
+        console.log(state.users.filter( e => e._id === id ));
+        setUser( state.users.filter( e => e._id === id )[0] )
     }, [] )
 
     return ( 
         <div>
+            <Navbar />
             { user &&
             <div className="container">
                 <form>
@@ -76,15 +51,18 @@ const ChangeUserForm = () => {
                         <input type="password" value = {password} onChange = {e => {setPassword(e.target.value)}} className="form-control" />
                     </div>
                         <div className="form-group">
-                            <label htmlFor="role" className="form-label">CIN: (tr: {user.role})</label>
-                            <select id="role">
+                            <label htmlFor="role" className="form-label">CIN: tr: {user.role}</label>
+                            <select id="role" value={role} onChange={ e => {
+                                setRole(e.target.value)
+                            } }>
                                 <option value="ADMIN">ADMIN</option>
                                 <option value="BOSS">SEF</option>
                                 <option value="USER">KORISNIK</option>
                             </select>
                         </div>
-                        <button disabled = {loading} className="btn btn-warning d-block mx-auto mt-4" onClick = {handleChange}>IZMENI</button>
+                        <button className="btn btn-warning d-block mx-auto mt-4" disabled = {loading} onClick={ handleChange } >IZMENI</button>
                 </form>
+                { error && ( <p className='text-sm text-danger'> {error} </p> ) }
             </div> }
         </div>
      );

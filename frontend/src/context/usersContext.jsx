@@ -28,7 +28,9 @@ const userReducer = (state, action) => {
             return { users: state.users.filter( e => e.id !== e.payload ), expiers: state.expiers }
         }
         case "CHANGE_USER": {
-            
+            let arrayWithout = state.users.filter( e => e._id !== action.payload._id )
+            return { users: [...arrayWithout, action.payload] }
+
         }
         case "RESET": {
             removeLocalUsers()

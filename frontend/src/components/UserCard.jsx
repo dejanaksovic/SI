@@ -1,9 +1,11 @@
 import { FaUser } from "react-icons/fa";
 import { useDeleteUser } from "../hooks/users/useDeleteUser";
+import { useNavigate } from "react-router-dom";
 
 const UserCard = ({name, email, role, id}) => {
 
     const { error, loading, deleteUser } = useDeleteUser()
+    const navigate = useNavigate()
 
     let color;
 
@@ -20,35 +22,24 @@ const UserCard = ({name, email, role, id}) => {
 
     const deleteHandler = async (e) => {
        e.preventDefault()
-       await deleteUser(id)
+       if(confirm(`Da li ste sigurni da zelite da obrisete korisnika ${name}`)) {
+        await deleteUser(id)
+        }
+
     }
 
     return ( 
         <div>
-            <div className="user-card-container">
-                <a href={`/users/${id}`}>
-                    <div className="user-name">
-                        <FaUser fill={color}/>
-                        <h2>{name}</h2>
-                    </div>
-                </a>
-                <div className="user-email">
-                    <p>{email}</p>
-                </div>
-                <div style={{color}} className="user-role">
-                    <p>{role}</p>
-                </div>
-                <div className="user-buttons">
-                    <a href={`/users/change/${id}`} className = "btn btn-warning" >
-                        IZMENI
-                    </a>
-                    <button disabled = { loading } onClick = { deleteHandler } className = "btn btn-danger" >
-                        <span className="spinner-grow-spinner-grow-sm" role="status" aria-hidden = "true"></span>
-                        OBRISI
-                    </button>
+            <div className="container row user-card-container">
+                <div className="col name">{name}</div>
+                <div className="col email">{email}</div>
+                <div className="col role" style={ {color: color} }>{role}</div>
+                <div className="col d-flex gap-4">
+                    <button className="btn btn-warning" onClick={ e => {navigate(`/users/change/${id}`)} }>IZMENI</button>
+                    <button className="btn btn-danger" disabled = {loading} onClick={deleteHandler} >OBRISI</button>
                 </div>
             </div>
-            { error && <p className = "text-danger">{error}</p> }
+            { error && <p className="text-sm text-danger"> {error} </p> }
         </div>
      );
 }

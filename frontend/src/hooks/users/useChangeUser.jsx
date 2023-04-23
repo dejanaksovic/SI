@@ -4,7 +4,7 @@ import axios from 'axios'
 import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
-const useGetUsers = () => {
+const useChangeUser = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -12,24 +12,32 @@ const useGetUsers = () => {
     const { url, state } = useContext(authContext)
     const { dispatch } = useUsersContext()
 
-    const getUsers = async () => {
+    const changeUser = async ( id, name, email, password, role ) => {
+        name = name ? name : undefined
+        email = email ? email : undefined
+        password = password ? password: undefined
+        role = role ? role : undefined
+
+        
 
         setLoading(true)
 
-        console.log("api trigger");
-
-        try {
-
-            const { data } = await axios.get(`${url}/users`, {
+       try {
+            const response = await axios.put(`${url}/users/${id}`, {
+                name,
+                email,
+                password,
+                role
+            }, {
                 headers: {
                     'Authorization': `Bearer ${state.user.token}`
                 }
             })
-            dispatch({ type: "SET_USERS", payload: {...data, expiers: Date.now() + 60000} })
-            setError(null)
-        }
+            dispatch({type: "CHANGE_USER", payload: response.data.user})
+            setError(false)
+       }
 
-        catch(err) {
+       catch(err) {
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')
@@ -37,20 +45,20 @@ const useGetUsers = () => {
                 }
                 setError(err.response.data.err)
             }
-            else if (err.request) {
-                setError('Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora')
+            else if (err.headers) {
+                setError("Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora")
             }
             else {
-                setError(`Greska: ${err.message}`)
+                setError(err.message)
             }
-        }
+       }
 
         setLoading(false)
 
     }
 
-    return { error, loading, getUsers }
+    return { error, loading, changeUser }
  
 }
 
-export { useGetUsers }
+export { useChangeUser }

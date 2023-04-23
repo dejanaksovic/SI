@@ -1,3 +1,5 @@
+import './style.css'
+
 const User = () => {
     return ( 
         <div>User!</div>

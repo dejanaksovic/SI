@@ -1,14 +1,14 @@
+import './users.css'
+
 //HOOKS
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-//CONTEXTS
-import { useAuth } from "../../hooks/auth/useAuth";
 //COMPONENTS
-import Navbar from "../../components/Navbar"
-import UserCard from "../../components/UserCard";
+import Navbar from "../../../components/Navbar"
+import UserCard from "../../../components/UserCard";
 import { FaSearch } from "react-icons/fa";
-import { useGetUsers } from "../../hooks/users/useGetUsers";
-import { useUsersContext } from "../../hooks/users/useUsersContext";
+import { useGetUsers } from "../../../hooks/users/useGetUsers";
+import { useUsersContext } from "../../../hooks/users/useUsersContext";
+
 
 const Users = () => {
 
@@ -35,9 +35,18 @@ const Users = () => {
     return (
         <div>
             <Navbar />
-            { loading && <p className="text-sm text-danger">Loading!</p> }
-            { error && <p className="text-danger"> { error }</p> }
-            <main className="users-main">
+            { loading === 0 && 
+            <div className="container d-flex justify-content-around align-items-center">
+                <div className="spinner-border text-primary loader" role="status">
+                    <span className="sr-only"></span>
+                </div>
+            </div> }
+
+            <div className="text text-danger">
+                <h2>{error}</h2>
+            </div>
+            
+            { users.length !== 0 && <main className="users-main">
                 <div className="filter-container">
                     <input type="text" placeholder="Pretrazite po imenu"/>
                     <label htmlFor="role-search"></label>
@@ -50,15 +59,14 @@ const Users = () => {
                         <FaSearch />
                     </button>
                 </div>
-                { users.length === 0 &&
-                <p>No users found</p> }
-
-                {
-                    users.map ( (e, i ) => (
-                        <UserCard name = {e.name} email = {e.email} role = {e.role} id = {e._id} key = {e._id}/>
-                    )) 
-                }
-            </main>
+                <div className="container users-container-main">
+                    {
+                        users.map ( (e, i ) => (
+                            <UserCard name = {e.name} email = {e.email} role = {e.role} id = {e._id} key = {e._id}/>
+                        ))
+                    }
+                </div>
+            </main>}
         </div>
     );
 }

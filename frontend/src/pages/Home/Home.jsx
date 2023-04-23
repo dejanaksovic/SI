@@ -1,7 +1,7 @@
-import Navbar from "../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
-import { authContext } from "../context/authContext";
+import { authContext } from "../../context/authContext";
 
 const Home = () => {
     const {state, disptach} = useContext(authContext)

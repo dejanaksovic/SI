@@ -1,19 +1,9 @@
 import { FaUser } from "react-icons/fa";
-import { useState, useContext } from "react";
-import { authContext } from "../context/authContext"
-import { userContext } from "../context/usersContext";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useDeleteUser } from "../hooks/users/useDeleteUser";
 
 const UserCard = ({name, email, role, id}) => {
 
-    const { dispatch } = useContext(userContext)
-    const { state, url } = useContext(authContext)
-
-    const [err, setErr] = useState(null)
-    const [loading, IsLoading] = useState(false)
-
-    const navigate = useNavigate()
+    const { error, loading, deleteUser } = useDeleteUser()
 
     let color;
 
@@ -29,22 +19,8 @@ const UserCard = ({name, email, role, id}) => {
     }
 
     const deleteHandler = async (e) => {
-        try {
-            IsLoading(true)
-            const res = await axios.delete(`${url}/users/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${state.user.token}`
-                }
-            })
-
-            dispatch("DELETE_USER", { payload: id })
-
-            navigate('/')
-        }
-
-        catch(err) {
-            setErr(err.response.data.err)
-        }
+       e.preventDefault()
+       await deleteUser(id)
     }
 
     return ( 
@@ -67,10 +43,12 @@ const UserCard = ({name, email, role, id}) => {
                         IZMENI
                     </a>
                     <button disabled = { loading } onClick = { deleteHandler } className = "btn btn-danger" >
+                        <span className="spinner-grow-spinner-grow-sm" role="status" aria-hidden = "true"></span>
                         OBRISI
                     </button>
                 </div>
             </div>
+            { error && <p className = "text-danger">{error}</p> }
         </div>
      );
 }

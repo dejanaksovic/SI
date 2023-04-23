@@ -1,8 +1,9 @@
-import axios from "axios";
+import './style.css'
+
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { authContext } from "../../context/authContext";
-import { userContext } from "../../context/usersContext";
+import { authContext } from "../../../context/authContext";
+import { userContext } from "../../../context/usersContext";
 
 const ChangeUserForm = () => {
 

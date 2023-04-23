@@ -1,20 +1,20 @@
 // PAGES
-import LoginPage from "./pages/LoginPage"
-import Home from "./pages/Home"
+import LoginPage from "./pages/Login/LoginPage"
+import Home from "./pages/Home/Home"
 
 // USERS
-import Users from "./pages/Users/Users"
-import User from "./pages/Users/User"
-import AddUserForm from "./pages/Users/AddUserForm"
-import ChangeUserForm from "./pages/Users/ChangeUserForm"
+import Users from "./pages/Users/index/Users"
+import User from "./pages/Users/show/User"
+import AddUserForm from "./pages/Users/create/AddUserForm"
+import ChangeUserForm from "./pages/Users/change/ChangeUserForm"
 
 // COMPANIES
 import Companies from "./pages/Companies/Companies"
 import Company from "./pages/Companies/Company"
 import AddCompany from "./pages/Companies/AddCompany"
 
-import Jobs from "./pages/Jobs"
-import Job from "./pages/Job"
+import Jobs from "./pages/Jobs/index/Jobs"
+import Job from "./pages/Jobs/show/Job"
 
 //CONTEXTS
 import { AuthContextProvider } from "./context/authContext"

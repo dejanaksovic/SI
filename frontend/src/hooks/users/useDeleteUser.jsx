@@ -15,13 +15,12 @@ const useDeleteUser = () => {
         setLoading(true)
 
         try {
-            const { data } = await axios.delete(`${url}/users/id`, {
+            const { data } = await axios.delete(`${url}/users/${id}`, {
             headers: {
                     'Authorization': `Bearer ${state.user.token}`
                 }
             }
             )
-
             dispatch({ type: "DELETE_USER", payload: id })
             setError(false)
         }

@@ -14,7 +14,7 @@ router.get('/:id?',tokenValidation, adminValidation, getUsers)
 //@POST /users
 //creates a new user
 //[ADMIN]
-router.post('/', createUser)
+router.post('/',tokenValidation, adminValidation, createUser)
 
 //@PUT /users
 //updates the user with the given id

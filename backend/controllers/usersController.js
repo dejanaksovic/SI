@@ -39,8 +39,7 @@ const createUser = async (req, res) => {
 
     const {name, email, role = "USER", password} = req.body
 
-    let hash = ""
-    
+    let hash = ""    
     try {
     //Creatign or returning inside error
     const salt = await bcrypt.genSalt(12)
@@ -50,7 +49,7 @@ const createUser = async (req, res) => {
 
     catch(err) {
         console.log(err)
-        return res.status(400).json({
+        return res.status(500).json({
             err: err.message
         })
     }
@@ -64,11 +63,12 @@ const createUser = async (req, res) => {
     })
 
     return res.status(200).json({
-        email,
+        user,
         token: jwt.sign({id: user._id}, process.env.SECRET, {expiresIn: '1h'})
     })}
 
     catch(err) {
+        console.log(err)
         return res.status(400).json({
             err
         })
@@ -135,7 +135,7 @@ const loginUser = async (req, res) => {
         }
 
         return res.status(200).json({
-            email,
+            user,
             token: jwt.sign({id: user._id}, process.env.SECRET, {expiresIn: '30min'})
         })
     }

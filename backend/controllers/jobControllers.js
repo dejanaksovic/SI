@@ -83,6 +83,8 @@ const updateJob = async (req, res) => {
             type,
             price,
             status
+        }, {
+            new: true
         })
 
         res.status(200).json({

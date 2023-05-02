@@ -97,6 +97,8 @@ const updateCompany = async (req, res) => {
                 tel,
                 email
             }
+        }, {
+            new: true,
         })
 
         return res.status(200).json({

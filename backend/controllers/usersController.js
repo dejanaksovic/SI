@@ -102,6 +102,8 @@ const updateUser = async (req, res) => {
             name,
             email,
             role
+        }, {
+            new: true,
         })
 
         return res.status(200).json({

@@ -4,12 +4,12 @@ const {getUsers, createUser, deleteUser, updateUser, loginUser} = require('../co
 
 //validation
 const tokenValidation = require('../middleware/tokenVerify')
-const {adminValidation} = require('../middleware/usersV')
+const {adminValidation, bossValidation} = require('../middleware/usersV')
 
 //@ GET /users
 //returns users or specified user with an id
 //[ADMIN, BOSS]
-router.get('/:id?',tokenValidation, adminValidation, getUsers)
+router.get('/:id?',tokenValidation, bossValidation, getUsers)
 
 //@POST /users
 //creates a new user

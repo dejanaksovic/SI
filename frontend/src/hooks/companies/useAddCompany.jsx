@@ -28,7 +28,7 @@ const useAddCompany = () => {
                 }
             }
             )
-            console.log(data);
+        console.log(data);
             dispatch({ type: "ADD_COMPANY", payload: data.company })
             setError(false)
         }

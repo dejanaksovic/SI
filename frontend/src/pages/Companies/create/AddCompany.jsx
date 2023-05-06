@@ -26,7 +26,9 @@ const AddCompany = () => {
                 <button className="btn btn-primary d-block mx-auto mt-4" onClick = {(e) => {
                     e.preventDefault()
                     addCompany(name, tel, email)
-                }}>KREIRAJ</button>
+                }}
+                disabled = {loading}>KREIRAJ</button>
+                { error && <p className="text-danger text-sm"> {error} </p> }
             </form>
         </div>
     );

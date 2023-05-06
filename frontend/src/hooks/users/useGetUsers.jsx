@@ -13,7 +13,6 @@ const useGetUsers = () => {
     const { dispatch } = useUsersContext()
 
     const getUsers = async () => {
-
         setLoading(true)
 
         try {

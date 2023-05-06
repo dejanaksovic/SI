@@ -10,9 +10,8 @@ const useGetCompanies = () => {
     const { url, state } = useAuth()
 
     const getCompanies = async () => {
-
+        console.log("Api for the thing");
         setLoading(true)
-
         try {
 
             const { data } = await axios.get(`${url}/companies`, {
@@ -20,7 +19,7 @@ const useGetCompanies = () => {
                     'Authorization': `Bearer ${state.token}`
                 }
             })
-            dispatch({ type: "SET_COMPANIES", payload: {...data, expiers: Date.now() + 60000} })
+            dispatch({ type: "SET_COMPANIES", payload: data.companies })
             setError(null)
         }
 

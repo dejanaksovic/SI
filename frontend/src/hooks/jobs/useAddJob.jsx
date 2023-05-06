@@ -26,9 +26,8 @@ const useAddJob = () => {
                     Authorization: `Bearer ${state.token}`
                 }
             })
-
-            console.log(res);
-            dispatch({type: "ADD_JOB", payload: res.data})
+            console.log(res.data);
+            dispatch({type: "ADD_JOB", payload: res.data.job})
         }
 
         catch(err) {

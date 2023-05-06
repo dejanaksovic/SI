@@ -17,12 +17,13 @@ const jobReducer = (state, action) => {
             return {jobs: [...state.jobs, action.payload]}
         }
         case "DELETE_JOB": {
-            setLocal({jobs: state.jobs.filter( e => e._id !== payload._id )})
-            return {jobs: state.jobs.filter( e => e._id !== payload._id )}
+            console.log(action.payload._id);
+            setLocal({jobs: state.jobs.filter( e => e._id !== action.payload._id )})
+            return {jobs: state.jobs.filter( e => e._id !== action.payload._id )}
         }
         case "CHANGE_JOB": {
-            setLocal({jobs: [...state.jobs.filter( e => e._id !== payload.id ), payload]})
-            return {jobs: [...state.jobs.filter( e => e._id !== payload.id ), payload]}
+            setLocal({jobs: [...state.jobs.filter( e => e._id !== action.payload._id ), action.payload]})
+            return {jobs: [...state.jobs.filter( e => e._id !== action.payload._id ), action.payload]}
         }
     }
 }

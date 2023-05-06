@@ -20,7 +20,7 @@ export const useChangeCompany = () => {
                 }
             })
             console.log(res);
-            dispatch({type: "CHANGE_COMPANY", payload: res.data})
+            dispatch({type: "CHANGE_COMPANY", payload: res.data.company})
             setLoading(false)
         }
 

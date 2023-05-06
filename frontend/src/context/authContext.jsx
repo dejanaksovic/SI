@@ -34,7 +34,7 @@ export const AuthContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(authReducer, prevUser)
 
     return (
-        <authContext.Provider value={{state, dispatch, url: "https://dvd-api.onrender.com"}}>
+        <authContext.Provider value={{state, dispatch, url: "http://localhost:3000"}}>
             {children}
         </authContext.Provider>
     )

@@ -21,6 +21,7 @@ import Job from "./pages/Jobs/show/Job"
 import { AuthContextProvider } from "./context/authContext"
 import UserContextProvider from "./context/usersContext"
 import { CompaniesContextProvider } from "./context/companiesContext"
+import JobContextProvider from "./context/jobContext"
 
 // ROUTER
 import {
@@ -56,7 +57,9 @@ function App() {
     <AuthContextProvider>
       <UserContextProvider>
         <CompaniesContextProvider>
-          <RouterProvider router={router}></RouterProvider>
+          <JobContextProvider>
+            <RouterProvider router={router}></RouterProvider>
+          </JobContextProvider>
         </CompaniesContextProvider>
       </UserContextProvider>
     </AuthContextProvider>

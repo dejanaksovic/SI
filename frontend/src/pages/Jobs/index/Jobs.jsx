@@ -25,7 +25,7 @@ const Jobs = () => {
     <div>
     <Navbar />
     { jobs && jobs.length > 0 ?
-    jobs.map( e => <JobsCard id={e._id} type = {e.type} price={ e.price }/> )
+    jobs.map( e => <JobsCard id={e._id} type = {e.type} price={ e.price } key={e._id}/> )
     : null  
     } 
     </div> );

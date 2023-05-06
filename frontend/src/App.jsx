@@ -30,6 +30,7 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+import AddJob from "./pages/Jobs/create/AddJob"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +47,8 @@ const router = createBrowserRouter(
       <Route path="companies/change/:id" element = {<ChangeCompany/>}/>
       <Route path="jobs" element = { <Jobs/> }/>
       <Route path="jobs/:id" element = { <Job/> }/>
+      <Route path="jobs/add" element = { <AddJob/> }/>
+      <Route path="jobs/change/:id" element = { <AddJob/> }/>
     </Route>
   
   )

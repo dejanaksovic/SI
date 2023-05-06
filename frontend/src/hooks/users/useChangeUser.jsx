@@ -30,7 +30,7 @@ const useChangeUser = () => {
                 role
             }, {
                 headers: {
-                    'Authorization': `Bearer ${state.user.token}`
+                    'Authorization': `Bearer ${state.token}`
                 }
             })
             dispatch({type: "CHANGE_USER", payload: response.data.user})

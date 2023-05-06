@@ -16,8 +16,6 @@ const AddUserFrom = () => {
 
     const addHandler = async (e) => {
         await addUser(name, email, password, role)
-        if (!error)
-            navigate('/users')
     }
 
     return ( 

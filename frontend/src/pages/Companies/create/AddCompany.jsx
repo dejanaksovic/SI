@@ -1,41 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { companiesContext } from "../../context/companiesContext";
-import { authContext } from "../../context/authContext";
+import { companiesContext } from "../../../context/companiesContext";
+import { authContext } from "../../../context/authContext";
 import axios from "axios";
+import { useAddCompany } from "../../../hooks/companies/useAddCompany";
 
 const AddCompany = () => {
 
-    const { state: companyState, dispatch } = useContext(companiesContext)
-    const { state: authState, url } = useContext(authContext);
-
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState(null);
-
-    const [name, setName] = useState("")
-    const [tel, setTel] = useState("")
-    const [email, setEmail] = useState("")
-
-    const handleCreate = e => {
-
-        e.preventDefault();
-
-        try {
-            const res = axios.post(`${url}/companies`, {
-                name,
-                tel,
-                email,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${authState.user.token}`
-                }
-            })
-        }
-
-        catch(err) {
-            console.log(err);
-        }
-
-    }
+    const { error, loading, addCompany } = useAddCompany()
 
     return (
         <div className="container">

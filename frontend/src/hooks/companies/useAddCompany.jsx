@@ -4,7 +4,7 @@ import axios from 'axios'
 import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
-const useAddUser = () => {
+const useAddCompany = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -12,7 +12,7 @@ const useAddUser = () => {
     const { url, state } = useContext(authContext)
     const { dispatch } = useUsersContext()
 
-    const addUser = async (name, email, password, role ) => {
+    const addCompany = async (name, tel, email ) => {
 
         setLoading(true)
 
@@ -22,8 +22,7 @@ const useAddUser = () => {
             const { data } = await axios.post(`${url}/users`, {
             name,
             email,
-            password,
-            role
+            tel
         },
             {
                 headers: {
@@ -31,7 +30,7 @@ const useAddUser = () => {
                 }
             }
             )
-            dispatch({ type: "ADD_USER", payload: data })
+            dispatch({ type: "ADD_COMPANY", payload: data })
             setError(false)
         }
 
@@ -56,8 +55,8 @@ const useAddUser = () => {
 
     }
 
-    return { error, loading, addUser }
+    return { error, loading, addCompany }
  
 }
 
-export { useAddUser }
+export { useAddCompany }

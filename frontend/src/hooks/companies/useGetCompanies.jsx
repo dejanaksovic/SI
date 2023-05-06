@@ -1,29 +1,26 @@
-import { useContext, useState } from "react";
-import { useUsersContext } from "./useUsersContext";
-import axios from 'axios'
-import { authContext } from "../../context/authContext";
-import { useNavigate } from "react-router-dom";
+import axios from "axios"
+import { useState } from "react"
+import { useCompaniesContext } from "../../hooks/companies/useCompaniesContext"
+import { useAuth } from "../../hooks/auth/useAuth"
 
-const useGetUsers = () => {
+const useGetCompanies = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const navigate = useNavigate()
-    
-    const { url, state } = useContext(authContext)
-    const { dispatch } = useUsersContext()
+    const { dispatch } = useCompaniesContext()
+    const { url, state } = useAuth()
 
-    const getUsers = async () => {
+    const getCompanies = async () => {
 
         setLoading(true)
 
         try {
 
-            const { data } = await axios.get(`${url}/users`, {
+            const { data } = await axios.get(`${url}/companies`, {
                 headers: {
                     'Authorization': `Bearer ${state.token}`
                 }
             })
-            dispatch({ type: "SET_USERS", payload: {...data, expiers: Date.now() + 60000} })
+            dispatch({ type: "SET_COMPANIES", payload: {...data, expiers: Date.now() + 60000} })
             setError(null)
         }
 
@@ -47,8 +44,8 @@ const useGetUsers = () => {
 
     }
 
-    return { error, loading, getUsers }
+    return { error, loading, getCompanies }
  
 }
 
-export { useGetUsers }
+export { useGetCompanies }

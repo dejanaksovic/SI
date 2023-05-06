@@ -57,8 +57,6 @@ const UserContextProvider = ({children}) => {
 
     const [state, dispatch] = useReducer(userReducer, prevUsers)
 
-    console.log("Init state", state);
-
     return (
     <userContext.Provider value={{state, dispatch}}>
         {children}

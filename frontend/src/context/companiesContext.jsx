@@ -23,7 +23,7 @@ export const CompaniesContextProvider = ({children}) => {
     if(companies)
         companies = JSON.parse(companies)
 
-    const [state, dispatch] = useReducer(companiesReducer, {companies})
+    const [state, dispatch] = useReducer(companiesReducer, companies)
 
     return ( 
         <companiesContext.Provider value={{state, dispatch}}>

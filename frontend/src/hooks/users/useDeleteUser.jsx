@@ -19,7 +19,7 @@ const useDeleteUser = () => {
         try {
             const { data } = await axios.delete(`${url}/users/${id}`, {
             headers: {
-                    'Authorization': `Bearer ${state.user.token}`
+                    'Authorization': `Bearer ${state.token}`
                 }
             }
             )
@@ -28,7 +28,6 @@ const useDeleteUser = () => {
         }
 
         catch(err) {
-            console.log(err);
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')

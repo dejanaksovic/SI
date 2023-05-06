@@ -2,13 +2,13 @@ import './users.css'
 
 //HOOKS
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { useUsersContext } from "../../../hooks/users/useUsersContext";
+import { useGetUsers } from "../../../hooks/users/useGetUsers";
 //COMPONENTS
 import Navbar from "../../../components/Navbar"
 import UserCard from "../../../components/UserCard";
 import { FaSearch } from "react-icons/fa";
-import { useGetUsers } from "../../../hooks/users/useGetUsers";
-import { useUsersContext } from "../../../hooks/users/useUsersContext";
-import { useNavigate } from 'react-router-dom';
 
 
 const Users = () => {
@@ -34,7 +34,6 @@ const Users = () => {
             }
             await getUsers()
             setUsers(usersState.users)
-            console.log(usersState);
         }
 
         getNewUsers()

@@ -7,7 +7,7 @@ const authReducer = (state, action) => {
    switch (action.type) {
         case "LOG_IN": {
             localStorage.setItem('user', JSON.stringify(action.payload))
-            return {user: action.payload};
+            return action.payload;
         }
         case "LOG_OUT":{
             localStorage.removeItem('user')
@@ -31,7 +31,7 @@ export const AuthContextProvider = ({children}) => {
         prevUser = null
     }
 
-    const [state, dispatch] = useReducer(authReducer, {user: prevUser})
+    const [state, dispatch] = useReducer(authReducer, prevUser)
 
     return (
         <authContext.Provider value={{state, dispatch, url: "https://dvd-api.onrender.com"}}>

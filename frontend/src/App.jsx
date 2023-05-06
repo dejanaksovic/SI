@@ -9,9 +9,10 @@ import AddUserForm from "./pages/Users/create/AddUserForm"
 import ChangeUserForm from "./pages/Users/change/ChangeUserForm"
 
 // COMPANIES
-import Companies from "./pages/Companies/Companies"
-import Company from "./pages/Companies/Company"
-import AddCompany from "./pages/Companies/AddCompany"
+import Companies from "./pages/Companies/index/Companies"
+import Company from "./pages/Companies/show/Company"
+import AddCompany from "./pages/Companies/create/AddCompany"
+import ChangeCompany from "./pages/Companies/change/ChangeCompany"
 
 import Jobs from "./pages/Jobs/index/Jobs"
 import Job from "./pages/Jobs/show/Job"
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="companies" element = { <Companies/> }/>
       <Route path="companies/:id" element = { <Company/> }/>
       <Route path="companies/add" element = { <AddCompany/>}/>
+      <Route path="companies/change/:id" element = {<ChangeCompany/>}/>
       <Route path="jobs" element = { <Jobs/> }/>
       <Route path="jobs/:id" element = { <Job/> }/>
     </Route>

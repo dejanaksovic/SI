@@ -49,7 +49,6 @@ const UserContextProvider = ({children}) => {
             prevUsers = { users: [], expiers: Date.now() }
         }
     }
-
     else {
         prevUsers = { users: [], expiers: Date.now() }
         removeLocalUsers()

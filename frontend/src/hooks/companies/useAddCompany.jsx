@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useUsersContext } from "./useUsersContext";
+import { useCompaniesContext } from "./useCompaniesContext";
 import axios from 'axios'
 import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
@@ -10,16 +10,14 @@ const useAddCompany = () => {
     const navigate = useNavigate()
     
     const { url, state } = useContext(authContext)
-    const { dispatch } = useUsersContext()
+    const { dispatch } = useCompaniesContext()
 
     const addCompany = async (name, tel, email ) => {
 
         setLoading(true)
 
-        console.log(state.user.token);
-
         try {
-            const { data } = await axios.post(`${url}/users`, {
+            const { data } = await axios.post(`${url}/companies`, {
             name,
             email,
             tel
@@ -30,12 +28,13 @@ const useAddCompany = () => {
                 }
             }
             )
-            dispatch({ type: "ADD_COMPANY", payload: data })
+            console.log(data);
+            dispatch({ type: "ADD_COMPANY", payload: data.company })
             setError(false)
         }
 
         catch(err) {
-
+            console.log(err);
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')

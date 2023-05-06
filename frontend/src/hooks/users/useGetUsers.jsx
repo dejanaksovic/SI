@@ -17,7 +17,6 @@ const useGetUsers = () => {
         setLoading(true)
 
         try {
-
             const { data } = await axios.get(`${url}/users`, {
                 headers: {
                     'Authorization': `Bearer ${state.token}`
@@ -25,6 +24,7 @@ const useGetUsers = () => {
             })
             dispatch({ type: "SET_USERS", payload: {...data, expiers: Date.now() + 60000} })
             setError(null)
+            console.log("Through");
         }
 
         catch(err) {

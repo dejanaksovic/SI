@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import { companiesContext } from "../../../context/companiesContext";
-import { authContext } from "../../../context/authContext";
-import axios from "axios";
+import { useState } from "react";
 import { useAddCompany } from "../../../hooks/companies/useAddCompany";
 
 const AddCompany = () => {
 
     const { error, loading, addCompany } = useAddCompany()
+    const [ name, setName ] = useState("")
+    const [ tel, setTel ] = useState("")
+    const [ email, setEmail ] = useState("")
 
     return (
         <div className="container">
@@ -23,7 +23,10 @@ const AddCompany = () => {
                     <label htmlFor="email" className="form-label">Kontakt imejl: </label>
                     <input type="text" value = {email} onChange = {e => {setEmail(e.target.value)}} className="form-control" id="email" />
                 </div>
-                <button className="btn btn-primary d-block mx-auto mt-4" onClick = {handleCreate}>KREIRAJ</button>
+                <button className="btn btn-primary d-block mx-auto mt-4" onClick = {(e) => {
+                    e.preventDefault()
+                    addCompany(name, tel, email)
+                }}>KREIRAJ</button>
             </form>
         </div>
     );

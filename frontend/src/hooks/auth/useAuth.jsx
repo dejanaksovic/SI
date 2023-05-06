@@ -4,7 +4,7 @@ import { authContext } from "../../context/authContext";
 const useAuth = () => {
     const { state, dispatch, url } = useContext(authContext)
 
-    if(!state)
+    if(state === undefined)
         throw Error("UseAuth must be used inside auth context")
 
     return  { state, dispatch, url }

@@ -6,9 +6,11 @@ export const companiesContext = createContext()
 const companiesReducer = (state, action) => {
     switch(action.type) {
         case "SET_COMPANIES":
-            return action.payload
-        case "ADD_COMPANY":
+            return {companies: action.payload}
+        case "ADD_COMPANY": {
+            console.log(state);
             return {companies: [...state.companies, action.payload]}
+        }
         case "DELETE_COMPANY":
             return {companies: state.companies.filter ( e => { e.id != payload.id })}
         default:
@@ -22,6 +24,10 @@ export const CompaniesContextProvider = ({children}) => {
 
     if(companies)
         companies = JSON.parse(companies)
+    
+    else {
+        companies = {companies: [], expires: Date.now()}
+    }
 
     const [state, dispatch] = useReducer(companiesReducer, companies)
 

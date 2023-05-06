@@ -44,7 +44,7 @@ const addJob = async (req, res) => {
         })
     } 
 
-    const company = Company.findById(companyId)
+    const company = await Company.findById(companyId)
 
     if (!company) {
         return res.status(404).json({
@@ -58,16 +58,18 @@ const addJob = async (req, res) => {
             status,
             price
         })
+        console.log(company);
 
         company.jobs.push(job.id)
         company.save()
 
-        return res.status(200).json({
+        return res.status(201).json({
             job
         })
     }
 
     catch(err) {
+        console.log(err)
         res.status(400).json ({
             err
         })

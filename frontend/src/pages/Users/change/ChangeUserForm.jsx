@@ -3,8 +3,8 @@ import './style.css'
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUsersContext } from '../../../hooks/users/useUsersContext';
-import Navbar from '../../../components/Navbar';
 import { useChangeUser } from '../../../hooks/users/useChangeUser';
+import ActionMessage from '../../../components/ActionMessage/ActionMessage';
 
 const ChangeUserForm = () => {
 
@@ -19,7 +19,7 @@ const ChangeUserForm = () => {
     const [password, setPassword] = useState("")
     const [role, setRole] = useState("")
 
-    const {error, loading, changeUser} = useChangeUser()
+    const {message, loading, changeUser} = useChangeUser()
 
     const handleChange = async (e) => {
         e.preventDefault()
@@ -34,7 +34,6 @@ const ChangeUserForm = () => {
 
     return ( 
         <div>
-            <Navbar />
             { user &&
             <div className="container">
                 <form>
@@ -62,7 +61,9 @@ const ChangeUserForm = () => {
                         </div>
                         <button className="btn btn-warning d-block mx-auto mt-4" disabled = {loading} onClick={ handleChange } >IZMENI</button>
                 </form>
-                { error && ( <p className='text-sm text-danger'> {error} </p> ) }
+                <div className="form-group">
+                    <ActionMessage message={message}/>
+                </div>
             </div> }
         </div>
      );

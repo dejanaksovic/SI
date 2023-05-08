@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../../components/Navbar";
 import JobsCard from "../../../components/JobsCard/JobsCard";
 import { useGetJobs } from "../../../hooks/jobs/useGetJobs";
 import { useJobContext } from "../../../hooks/jobs/useJobContext";
+import { useNavigate } from "react-router-dom";
 
 const Jobs = () => {
     
     const { error, loading, getJobs } = useGetJobs()
     const [ jobs, setJobs ] = useState([])
-
+    const navigate = useNavigate()
     const { state } = useJobContext()
 
     useEffect( () => {
@@ -23,9 +23,14 @@ const Jobs = () => {
 
     return ( 
     <div>
-    <Navbar />
+    <div className="container d-flex">
+        <button className="btn btn-success" onClick={ (e) => {
+            e.preventDefault()
+            navigate('/jobs/add')
+        } }>Kreiraj posao</button>
+    </div>
     { jobs && jobs.length > 0 ?
-    jobs.map( e => <JobsCard id={e._id} type = {e.type} price={ e.price } key={e._id}/> )
+    jobs.map( e => <JobsCard id={e._id} status={e.status} type = {e.type} price={ e.price } key={e._id}/> )
     : null  
     } 
     </div> );

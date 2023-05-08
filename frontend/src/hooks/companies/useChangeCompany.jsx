@@ -5,7 +5,7 @@ import axios from "axios"
 
 export const useChangeCompany = () => {
 
-    const [error, setError] = useState(null)
+    const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
 
     const { state, url } = useAuth()
@@ -19,9 +19,8 @@ export const useChangeCompany = () => {
                     Authorization: `Bearer ${state.token}`
                 }
             })
-            console.log(res);
+            setMessage({ok: true, message: "Kompanijine informacije uspesno promenjene"})
             dispatch({type: "CHANGE_COMPANY", payload: res.data.company})
-            setLoading(false)
         }
 
         catch(err) {
@@ -30,18 +29,18 @@ export const useChangeCompany = () => {
                     navigate('/login')
                     return
                 }
-                setError(err.response.data.err)
+                setMessage(err.response.data.err)
             }
             else if (err.headers) {
-                setError("Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora")
+                setMessage("Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora")
             }
             else {
-                setError(err.message)
+                setMessage(err.message)
             }
         }
         setLoading(false)
     }
 
-    return { error, loading, changeCompany }
+    return { message, loading, changeCompany }
 
 }

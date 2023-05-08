@@ -1,14 +1,15 @@
-import Navbar from "../../../components/Navbar";
 import CompanyCard from "../../../components/CompaniesCard/CompanyCard"
 import { useEffect, useState } from "react";
 import { useCompaniesContext } from "../../../hooks/companies/useCompaniesContext";
 import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
+import { useNavigate } from "react-router-dom";
 
 const Companies = () => {
 
     const { state } = useCompaniesContext()
     const { error, loading, getCompanies } = useGetCompanies()
     const [ companies, setCompanies ] = useState([])
+    const navigate = useNavigate()
 
     useEffect( () => {
 
@@ -19,6 +20,7 @@ const Companies = () => {
         if(!state || !state.companies) {
             fetchCompanies()
         }
+        fetchCompanies()
     }, [] )
 
     //Setting the local state to the state of the context
@@ -28,7 +30,12 @@ const Companies = () => {
 
     return ( 
         <div className="container">
-            <Navbar/>
+            <div className="container d-flex">
+                <button className="btn btn-success d-block" onClick={ (e) => {
+                    e.preventDefault()
+                    navigate('/companies/add')
+                }}>Kreiraj kompaniju</button>
+            </div>
             {
                 Array.isArray(companies) ? 
                 companies.map( e => {

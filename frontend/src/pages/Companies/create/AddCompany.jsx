@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAddCompany } from "../../../hooks/companies/useAddCompany";
+import ActionMessage from "../../../components/ActionMessage/ActionMessage";
 
 const AddCompany = () => {
 
-    const { error, loading, addCompany } = useAddCompany()
+    const { message, loading, addCompany } = useAddCompany()
     const [ name, setName ] = useState("")
     const [ tel, setTel ] = useState("")
     const [ email, setEmail ] = useState("")
@@ -28,7 +29,7 @@ const AddCompany = () => {
                     addCompany(name, tel, email)
                 }}
                 disabled = {loading}>KREIRAJ</button>
-                { error && <p className="text-danger text-sm"> {error} </p> }
+                <ActionMessage message={message} />
             </form>
         </div>
     );

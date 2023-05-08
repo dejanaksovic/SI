@@ -16,7 +16,7 @@ const JobsCard = ({type, price, status, id}) => {
             <div className="company-card-interaction">
                 <button className="btn btn-warning" onClick={(e) => {
                     e.preventDefault()
-                    navigate(`/companies/change/${id}`)
+                    navigate(`/jobs/change/${id}`)
                 }}>Izmeni</button>
                 <button className="btn btn-danger" disabled = {loading} onClick={(e) => {
                     e.preventDefault()

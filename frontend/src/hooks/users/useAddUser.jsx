@@ -5,7 +5,7 @@ import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 const useAddUser = () => {
-    const [error, setError] = useState(null)
+    const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     
@@ -15,8 +15,6 @@ const useAddUser = () => {
     const addUser = async (name, email, password, role ) => {
 
         setLoading(true)
-
-        console.log(state.user.token);
 
         try {
             const { data } = await axios.post(`${url}/users`, {
@@ -32,7 +30,7 @@ const useAddUser = () => {
             }
             )
             dispatch({ type: "ADD_USER", payload: data })
-            setError(false)
+            setMessage({ok: true, message:`Korisnik ${name} je uspesno kreiran`})
         }
 
         catch(err) {
@@ -42,13 +40,13 @@ const useAddUser = () => {
                     navigate('/login')
                     return
                 }
-                setError(err.response.data.err)
+                setError({ok: false, message: err.response.data.err})
             }
             else if (err.request) {
-                setError('Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora')
+                setError({ok: false, message: 'Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora'})
             }
             else {
-                setError(`Greska: ${err.message}`)
+                setError({ok: false, message: `Greska: ${err.message}`})
             }
         }
 
@@ -56,7 +54,7 @@ const useAddUser = () => {
 
     }
 
-    return { error, loading, addUser }
+    return { message, loading, addUser }
  
 }
 

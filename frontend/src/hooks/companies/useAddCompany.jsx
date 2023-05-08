@@ -5,7 +5,7 @@ import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 const useAddCompany = () => {
-    const [error, setError] = useState(null)
+    const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     
@@ -28,25 +28,23 @@ const useAddCompany = () => {
                 }
             }
             )
-        console.log(data);
             dispatch({ type: "ADD_COMPANY", payload: data.company })
-            setError(false)
+            setMessage({ok: true, message: "Kompanija uspesno kreirana"})
         }
 
         catch(err) {
-            console.log(err);
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')
                     return
                 }
-                setError(err.response.data.err)
+                setMessage({ok: false, message: err.response.data.err})
             }
             else if (err.request) {
-                setError('Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora')
+                setMessage({ok: false, message: 'Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora'})
             }
             else {
-                setError(`Greska: ${err.message}`)
+                setMessage({ok: false, message: `Greska: ${err.message}`})
             }
         }
 
@@ -54,7 +52,7 @@ const useAddCompany = () => {
 
     }
 
-    return { error, loading, addCompany }
+    return { message, loading, addCompany }
  
 }
 

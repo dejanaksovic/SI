@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Navbar from '../../../components/Navbar';
 import { useCompaniesContext } from '../../../hooks/companies/useCompaniesContext';
 import { useChangeCompany } from '../../../hooks/companies/useChangeCompany';
+import ActionMessage from "../../../components/ActionMessage/ActionMessage";
 
 const ChangeCompany = () => {
 
     const { id } = useParams()
-    const navigate = useNavigate()
     const { state } = useCompaniesContext()
 
     const [company, setCompany] = useState()
@@ -16,7 +15,7 @@ const ChangeCompany = () => {
     const [email, setEmail] = useState("")
     const [tel, setTel] = useState("")
 
-    const {error, loading, changeCompany} = useChangeCompany()
+    const {message, loading, changeCompany} = useChangeCompany()
 
     useEffect( () => {
         setCompany( state.companies.filter( e => e._id === id )[0] )
@@ -24,7 +23,6 @@ const ChangeCompany = () => {
 
     return ( 
         <div>
-            <Navbar />
             { company &&
             <div className="container">
                 <form>
@@ -44,8 +42,8 @@ const ChangeCompany = () => {
                             e.preventDefault()
                             changeCompany(id, {name, email, tel})
                         } } >IZMENI</button>
+                        <ActionMessage message={message}/>
                 </form>
-                { error && ( <p className='text-sm text-danger'> {error} </p> ) }
             </div> }
         </div>
      );

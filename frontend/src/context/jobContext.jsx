@@ -22,6 +22,7 @@ const jobReducer = (state, action) => {
             return {jobs: state.jobs.filter( e => e._id !== action.payload._id )}
         }
         case "CHANGE_JOB": {
+            console.log(action.payload);
             setLocal({jobs: [...state.jobs.filter( e => e._id !== action.payload._id ), action.payload]})
             return {jobs: [...state.jobs.filter( e => e._id !== action.payload._id ), action.payload]}
         }

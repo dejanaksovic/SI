@@ -5,7 +5,7 @@ import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 const useChangeUser = () => {
-    const [error, setError] = useState(null)
+    const [message, setMessage] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     
@@ -34,7 +34,7 @@ const useChangeUser = () => {
                 }
             })
             dispatch({type: "CHANGE_USER", payload: response.data.user})
-            setError(false)
+            setMessage({ok: false, message: `Korisnik je uspesno izmenjen`})
        }
 
        catch(err) {
@@ -43,13 +43,13 @@ const useChangeUser = () => {
                     navigate('/login')
                     return
                 }
-                setError(err.response.data.err)
+                setMessage({ok: false, message: err.response.data.err})
             }
             else if (err.headers) {
-                setError("Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora")
+                setMessage({ok: false, message:"Greska je sa nase strane, pokusajte ponovo kasnije ili kontaktirajte administratora"})
             }
             else {
-                setError(err.message)
+            setMessage({ok: false, message: err.message})
             }
        }
 
@@ -57,7 +57,7 @@ const useChangeUser = () => {
 
     }
 
-    return { error, loading, changeUser }
+    return { message, loading, changeUser }
  
 }
 

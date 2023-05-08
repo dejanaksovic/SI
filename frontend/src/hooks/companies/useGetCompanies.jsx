@@ -2,12 +2,14 @@ import axios from "axios"
 import { useState } from "react"
 import { useCompaniesContext } from "../../hooks/companies/useCompaniesContext"
 import { useAuth } from "../../hooks/auth/useAuth"
+import { useNavigate } from "react-router-dom"
 
 const useGetCompanies = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const { dispatch } = useCompaniesContext()
     const { url, state } = useAuth()
+    const navigate = useNavigate()
 
     const getCompanies = async () => {
         console.log("Api for the thing");
@@ -19,6 +21,7 @@ const useGetCompanies = () => {
                     'Authorization': `Bearer ${state.token}`
                 }
             })
+            console.log(data);
             dispatch({ type: "SET_COMPANIES", payload: data.companies })
             setError(null)
         }

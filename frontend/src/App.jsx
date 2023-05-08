@@ -14,8 +14,11 @@ import Company from "./pages/Companies/show/Company"
 import AddCompany from "./pages/Companies/create/AddCompany"
 import ChangeCompany from "./pages/Companies/change/ChangeCompany"
 
+//JOBS
 import Jobs from "./pages/Jobs/index/Jobs"
 import Job from "./pages/Jobs/show/Job"
+import AddJob from "./pages/Jobs/create/AddJob"
+import ChangeJob from "./pages/Jobs/change/ChangeJob"
 
 //CONTEXTS
 import { AuthContextProvider } from "./context/authContext"
@@ -30,11 +33,11 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
-import AddJob from "./pages/Jobs/create/AddJob"
+import RootLayout from "./layouts/RootLayout"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route>
+    <Route element = {<RootLayout/>}>
       <Route path="/" element = { <Home/> }/> 
       <Route path="login" element = { <LoginPage/> }/>
       <Route path="users" element = { <Users/> }/>
@@ -48,7 +51,7 @@ const router = createBrowserRouter(
       <Route path="jobs" element = { <Jobs/> }/>
       <Route path="jobs/:id" element = { <Job/> }/>
       <Route path="jobs/add" element = { <AddJob/> }/>
-      <Route path="jobs/change/:id" element = { <AddJob/> }/>
+      <Route path="jobs/change/:id" element = { <ChangeJob/> }/>
     </Route>
   
   )

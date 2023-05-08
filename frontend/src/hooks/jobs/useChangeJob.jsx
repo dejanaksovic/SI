@@ -20,7 +20,7 @@ const useChangeJob = () => {
         setLoading(true)
 
        try {
-            const response = await axios.put(`${url}/users/${id}`, {
+            const response = await axios.put(`${url}/jobs/${id}`, {
                 type,
                 price,
                 status
@@ -29,6 +29,7 @@ const useChangeJob = () => {
                     'Authorization': `Bearer ${state.token}`
                 }
             })
+            console.log(response);
             dispatch({type: "CHANGE_JOB", payload: response.data.job})
             setError(false)
        }

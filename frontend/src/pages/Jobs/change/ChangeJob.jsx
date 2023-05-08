@@ -1,34 +1,30 @@
+import { useParams } from "react-router-dom";
+import { useChangeJob } from "../../../hooks/jobs/useChangeJob";
 import { useEffect, useState } from "react";
-import { useAddJob } from "../../../hooks/jobs/useAddJob";
+import { useJobContext } from "../../../hooks/jobs/useJobContext";
 import { useCompaniesContext } from "../../../hooks/companies/useCompaniesContext";
-import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
 
-const AddJob = () => {
-    const { state } = useCompaniesContext()
-    const { getCompanies } = useGetCompanies()
-    const [ companies, setCompanies ] = useState([])
 
-    useEffect( () => {
-        if(!state.companies && state.companies.length === 0)
-            getCompanies()
-    }, [] )
+const ChangeJob = () => {
 
-    useEffect( () => {
-        setCompanies(state.companies)
-    }, [state] )
+    const { id } = useParams()
+    const { state } = useJobContext()
+    const [job, setJob] = useState()
+    const { error, loading, changeJob } = useChangeJob()
+    const { state: companiesState } = useCompaniesContext()
 
-    const [ price, setPrice ] = useState("")
-    const [ type, setType ] = useState("PPO")
-    const [ status, setStatus ] = useState("TAKEN")
-    const [ companyId, setCompanyId ] = useState("")
+    const [price, setPrice] = useState("")
+    const [type, setType] = useState("")
+    const [status, setStatus] = useState("");
+    const [companyId, setCompanyId] = useState("")
 
-    const { error, loading, addJob } = useAddJob()
-
-    const handleAdd = (e) => {
-        e.preventDefault()
-        console.log("Id");
-        addJob(type, price, status, companyId)
+    const handleChange = async () => {
+        await changeJob(id, type, price, status)
     }
+
+    useEffect( () => {
+        setJob(state.jobs.filter( e => e._id === id )[0])
+    }, [] )
 
     return ( 
         <div className="container d-flex justify-content-around">
@@ -55,13 +51,13 @@ const AddJob = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="role">Kompanija</label>
-                    <select required id="role" className="form-select" value={companyId} onChange= { e => { setCompanyId(e.target.value); console.log(e.target.value); }}>
+                    <select required id="role" className="form-select" value={companyId} onChange= { e => { setCompanyId(e.target.value); }}>
                         {
-                            companies.map( e => <option key={e._id} value={e._id}> {e.name}</option> )
+                            companiesState.companies.map( e => <option key={e._id} value={e._id}> {e.name}</option> )
                         }
                     </select>
                 </div>
-                <button disabled = {loading}  onClick={ handleAdd } className="btn btn-success d-block mx-auto mt-4">KREIRAJ</button>
+                <button disabled = {loading}  onClick={ handleChange } className="btn btn-warning d-block mx-auto mt-4">Izmeni</button>
                 <form-group>
                     <p className="text-sm text-danger">{error}</p>
                 </form-group>
@@ -70,4 +66,4 @@ const AddJob = () => {
      );
 }
  
-export default AddJob;
+export default ChangeJob;

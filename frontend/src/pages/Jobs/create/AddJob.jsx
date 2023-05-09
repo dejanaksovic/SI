@@ -21,13 +21,14 @@ const AddJob = () => {
     const [ type, setType ] = useState("PPO")
     const [ status, setStatus ] = useState("TAKEN")
     const [ companyId, setCompanyId ] = useState("")
+    const [ date, setDate ] = useState(new Date()) 
 
     const { error, loading, addJob } = useAddJob()
 
     const handleAdd = (e) => {
         e.preventDefault()
         console.log("Id");
-        addJob(type, price, status, companyId)
+        addJob(type, price, status, companyId, date)
     }
 
     return ( 
@@ -47,11 +48,18 @@ const AddJob = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="role">Status</label>
-                    <select required id="role" className="form-select" value={status} onChange= { e => { setStatus(e.target.value) }}>
+                    <select required id="role" className="form-select" value={status} onChange= { e => { setStatus(e.target.value); console.log(e.target.value);}}>
                         <option value="TAKEN">Odradjen</option>
                         <option value="AVAILABLE">DOSTUPAN</option>
                         <option value="STANDBY">Na cekanju</option>
+                        <option value="DONE">Odradjen</option>
                     </select>
+                {   status === "DONE" ?
+                    <><label htmlFor="date">Datum izrade</label>
+                    <input type="date" value={date} onChange={(e) => {setDate(e.target.value); console.log(e.target.value)}} placeholder={new Date()}/></>:
+                    null
+
+                }
                 </div>
                 <div className="form-group">
                     <label htmlFor="role">Kompanija</label>

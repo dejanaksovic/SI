@@ -1,4 +1,4 @@
-import 'ActionMessage.css'
+import './ActionMessage.css'
 
 const ActionMessage = ({message}) => {
     return ( 

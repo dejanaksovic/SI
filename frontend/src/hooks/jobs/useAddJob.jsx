@@ -12,7 +12,7 @@ const useAddJob = () => {
 
     const {dispatch} = useJobContext()
 
-    const addJob = async (type, price, status, companyId) => {
+    const addJob = async (type, price, status, companyId, doneDate) => {
         console.log(type, price, status, companyId);
         setLoading(true)
         try {

@@ -30,7 +30,7 @@ const Jobs = () => {
         } }>Kreiraj posao</button>
     </div>
     { jobs && jobs.length > 0 ?
-    jobs.map( e => <JobsCard id={e._id} status={e.status} type = {e.type} price={ e.price } key={e._id}/> )
+    jobs.map( e => <JobsCard doneDate={e.doneDate} doneBy={e.doneBy} id={e._id} status={e.status} type = {e.type} price={ e.price } key={e._id}/> )
     : null  
     } 
     </div> );

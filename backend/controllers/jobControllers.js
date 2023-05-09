@@ -37,7 +37,7 @@ const getJobs = async (req, res) => {
 
     catch(err) {
         return res.status(400).json({
-            jobs
+            err
         })
     }
 }

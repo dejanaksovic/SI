@@ -13,8 +13,13 @@ const JobSchema = mongoose.Schema({
 
     status: {
         type: String,
-        enum: ["TAKEN", "AVAILABLE", "STANDBY", "DONE"],
-        default: ["AVAILABLE"]
+        enum: ["AVAILABLE", "TAKEN", "STANDBY", "DONE"],
+        default: "AVAILABLE",
+    },
+
+    isRenewable: {
+        type: Boolean,
+        default: true,
     },
 
     wantedBy: [

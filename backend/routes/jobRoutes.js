@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router();
 
-const {getJobs, updateJob, deleteJob, addJob, signWorker, setWorker} = require('../controllers/jobControllers')
+//controllers
+const {getJobs, updateJob, deleteJob, addJob, signWorker, setWorker, confirmJob, markJobDone} = require('../controllers/jobControllers')
 
 //validation
 const tokenValidation = require('../middleware/tokenVerify')
@@ -36,5 +37,15 @@ router.put('/sign/:jobId', tokenValidation, signWorker)
 //sets user to do someJob
 //[ADMIN, BOSS]
 router.put('/set/:jobId', tokenValidation, bossValidation, setWorker)
+
+//@PUT /jobs/mark/:id
+//marks the job as done and waits for the review from boss
+//[ADMIN, BOSS]
+router.put('/mark/:jobId', tokenValidation, bossValidation, markJobDone)
+
+//@PUT /jobs/confirm/:id
+//confirms already done job by the client that was working on it
+//[ADMIN, BOSS]
+router.put('/confirm/:jobId', tokenValidation, bossValidation, confirmJob)
 
 module.exports = router

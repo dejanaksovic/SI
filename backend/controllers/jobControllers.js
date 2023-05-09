@@ -43,7 +43,7 @@ const getJobs = async (req, res) => {
 }
 
 const addJob = async (req, res) => {
-    const {type, status, price, companyId, doneDate} = req.body
+    const {type, status, price, companyId, doneDate, doneBy, isRenewable} = req.body
 
     if(!companyId || !mongoose.isValidObjectId(companyId)) {
         return res.status(400).json({
@@ -59,12 +59,60 @@ const addJob = async (req, res) => {
         })
     }
 
+    if(status === "TAKEN") {
+        let user;
+        if(!doneBy) {
+            return res.status(400).json({
+                err: "Poslovi koji se trenutno rade moraju imati od koga su uzeti",
+
+            })
+        }
+
+        if(!mongoose.isValidObjectId(doneBy))
+            return res.status(400).json({
+                err: "Id korisnika nije ispravan"
+            })
+
+        try {
+            user = await User.findById(doneBy)
+        }
+        catch(err) {
+            return res.status(500).json({
+                err: "Greska pri komunijakaciji sa serverom, pokusajte ponovo ili kontaktirajte administratora ukoliko se greska ponavlja"
+            })
+        }
+
+        if(!user) {
+            return res.status(404).json({
+                err: "Korisnik kojem zelite da dodelite posao ne postoji"
+            })
+        }
+
+        if(user.role !== "USER") {
+            return res.status(400).json({
+                err: "Korsnik koji radi posao mora biti 'radnik'"
+            })
+        }
+    }
+
+    if(status === "DONE") {
+        if(!doneDate) {
+            return res.status(400).json({
+                err: "Odradjeni poslovi moraju imati datum kada su odradjeni"
+            })
+        }
+    }
+
     try {
+        console.log(type)
         const job = await Job.create({
             type,
             status,
             price,
-            company: companyId
+            company: companyId,
+            doneDate: status !== "DONE" ? null : doneDate,
+            doneBy: status === "AVAILABLE" ? null : doneBy,
+            isRenewable            
         })
 
         return res.status(201).json({
@@ -83,9 +131,31 @@ const addJob = async (req, res) => {
 const updateJob = async (req, res) => {
     const { id } = req.params
     const {type, price, status, companyId} = req.body
+    let job;
+
+    if(!mongoose.isValidObjectId(id)) {
+        return res.status(404).json({
+            err: "Korisnik sa tim id-em ne postoji"
+        })
+    }
 
     try {
-        const job = await Job.findByIdAndUpdate(id, {
+        job = await Job.findById(id)
+    }
+
+    catch(err) {
+        return res.status(500).json({
+            err: "Greska sa serverske strane, pokusajte ponovo kanije ili kontaktirajte administratora ukoliko kvar ne bude otklonjen"
+        })
+    }
+
+    if(job.status === "DONE")
+    return res.status(400).json({
+        err: "Odradjeni poslovi ne mogu biti promenjeni"
+    })
+
+    try {
+        job = await Job.findByIdAndUpdate(id, {
             type,
             price,
             status,
@@ -176,6 +246,12 @@ const signWorker = async (req, res) => {
         })
     }
 
+    if(await job.wantedBy.includes(userId)) {
+        return res.status(400).json({
+            err: "Korisnik koji je vec prijavljen na poslu ne moze se prijaviti opet"
+        })
+    }
+
     try {
     await job.wantedBy.push(user._id)
     await job.save()
@@ -233,7 +309,7 @@ const setWorker = async(req, res) => {
         })
     }
 
-    if(!user.role !== "USER") {
+    if(user.role !== "USER") {
         return res.status(400).json({
             err: "Izabrani korisnik nije 'radnik' i ne moze biti zaduzen za posao"
         })
@@ -243,7 +319,7 @@ const setWorker = async(req, res) => {
     job.status = "TAKEN"
     job.doneDate = new Date()
     job.doneBy = user._id
-    
+
     try {
         await job.save()
     }
@@ -257,11 +333,104 @@ const setWorker = async(req, res) => {
 
 }
 
+const confirmJob = async (req, res) => {
+    const { jobId } = req.params
+    let job, user
+
+    if(!mongoose.isValidObjectId(jobId)) {
+        return res.status(400).json({
+            err: "Neispravni id-evi"
+        })
+    }
+
+    try {
+        job = await Job.findById(jobId)
+    }
+    catch(err) {
+        return res.status(500).json({
+            err: "Greska pri komunikaciji sa serverom, pokusajte kasnije ili kontaktirajte administratora ukoliko se bude ponavljalo"
+        })
+    }
+
+    if(!job) {
+        return res.status(404).json({
+            err: "Posao sa tim id-em ne postoji"
+        })
+    }
+
+    job.status = "DONE"
+    await job.save()
+    return res.status(200).json({
+        job
+    })
+}
+
+const markJobDone = async (req, res) => {
+    const { jobId } = req.params
+    const { userId } = req.body
+    let job, user;
+
+    if(!mongoose.isValidObjectId(jobId) || !mongoose.isValidObjectId(userId)) {
+        return res.status(400).json({
+            err: "Nevalidni id-evi"
+        })
+    }
+
+    try {
+        job = await Job.findById(jobId)
+    }
+    catch(err) {
+        return res.status(500).json({
+            err: "Greska pri komunikaciji sa serverom, pokusajte kasnije ili kontaktirajte administratora ukoliko se bude ponavljalo"
+        })
+    }
+
+    if(!job) {
+        return res.status(404).json({
+            err: "Posao sa tim id-em ne postoji"
+        })
+    }
+
+    try {
+        user = await User.findById(userId)
+    }
+    catch(err) {
+        return res.status(500).json({
+            err: "Greska pri komunikaciji sa serverom, pokusajte kasnije ili kontaktirajte administratora ukoliko se bude ponavljalo"
+        })
+    }
+ 
+    if(!user) {
+        return res.status(404).json({
+            err: "Korisnik sa tim id-em ne postoji"
+        })
+    }
+
+    if(job.doneBy.toString() !== userId.toString()) {
+        return res.status(403).json({
+            err: "Korisnik ne moze da potvrdi gotovost posla jer posao nije dodeljen njemu"
+        })
+    }
+
+    if(job.status !== "TAKEN")
+        return res.status(400).json({
+            err: "Posao koji nije u stanju rada ne moze da se zavrsi"
+        })
+
+    job.status = "STANDBY"
+    await job.save()
+    return res.status(200).json({
+        job
+    })
+}
+
 module.exports = {
     getJobs,
     addJob,
     updateJob,
     deleteJob,
     signWorker,
-    setWorker
+    setWorker,
+    markJobDone,
+    confirmJob
 }

@@ -143,7 +143,7 @@ const loginUser = async (req, res) => {
 
         return res.status(200).json({
             user,
-            token: jwt.sign({id: user._id}, process.env.SECRET, {expiresIn: '30min'})
+            token: jwt.sign({id: user._id}, process.env.SECRET, {expiresIn: '24h'})
         })
     }
         catch(err) {

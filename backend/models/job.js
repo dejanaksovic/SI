@@ -13,8 +13,32 @@ const JobSchema = mongoose.Schema({
 
     status: {
         type: String,
-        enum: ["TAKEN", "AVAILABLE", "STANDBY"],
+        enum: ["TAKEN", "AVAILABLE", "STANDBY", "DONE"],
         default: ["AVAILABLE"]
+    },
+
+    wantedBy: [
+        {
+            type: mongoose.Types.ObjectId,
+            default: null,
+            ref: 'User'
+        }
+    ],
+
+    doneBy: {
+        type: mongoose.Types.ObjectId,
+        default: null,
+        ref: 'User'
+    },
+
+    doneDate: {
+        type: Date,
+        default: null,
+    },
+
+    company: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Company'
     }
 }, 
 {

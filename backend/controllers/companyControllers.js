@@ -101,8 +101,6 @@ const updateCompany = async (req, res) => {
             new: true,
         })
 
-        console.log(company)
-
         return res.status(200).json({
             company,
         })

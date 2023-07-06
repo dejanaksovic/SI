@@ -1,25 +1,45 @@
-import Navbar from "../../../components/Navbar";
 import CompanyCard from "../../../components/CompaniesCard/CompanyCard"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCompaniesContext } from "../../../hooks/companies/useCompaniesContext";
 import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
+import { useNavigate } from "react-router-dom";
 
 const Companies = () => {
 
-    const { companies } = useCompaniesContext()
     const { error, loading, getCompanies } = useGetCompanies()
+    const [ companies, setCompanies ] = useState([])
+    const navigate = useNavigate()
 
     useEffect( () => {
-        getCompanies()
+        const fetchCompanies = async () => {
+            await getCompanies()
+        }
+
+        if(!state || !state.companies) {
+            fetchCompanies()
+        }
+        fetchCompanies()
     }, [] )
+
+    //Setting the local state to the state of the context
+    useEffect( () => {
+        setCompanies(state.companies)
+    }, [state] )
 
     return ( 
         <div className="container">
-            <Navbar/>
-            { 
-                companies?.map( e => {
-                    return <CompanyCard name={e.name} id={e._id} key={e._id} contact={e.contact}/>
-                } )                
+            <div className="container d-flex">
+                <button className="btn btn-success d-block" onClick={ (e) => {
+                    e.preventDefault()
+                    navigate('/companies/add')
+                }}>Kreiraj kompaniju</button>
+            </div>
+            {
+                Array.isArray(companies) ? 
+                companies.map( e => {
+                    return <CompanyCard name={ e.name } contact={ e.contact } id={e._id} key={e._id}/>
+                } ) :
+                null
             }
         </div>
      );

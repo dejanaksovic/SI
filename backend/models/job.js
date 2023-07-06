@@ -13,8 +13,37 @@ const JobSchema = mongoose.Schema({
 
     status: {
         type: String,
-        enum: ["TAKEN", "AVAILABLE", "STANDBY"],
-        default: ["AVAILABLE"]
+        enum: ["AVAILABLE", "TAKEN", "STANDBY", "DONE"],
+        default: "AVAILABLE",
+    },
+
+    isRenewable: {
+        type: Boolean,
+        default: true,
+    },
+
+    wantedBy: [
+        {
+            type: mongoose.Types.ObjectId,
+            default: null,
+            ref: 'User'
+        }
+    ],
+
+    doneBy: {
+        type: mongoose.Types.ObjectId,
+        default: null,
+        ref: 'User'
+    },
+
+    doneDate: {
+        type: Date,
+        default: null,
+    },
+
+    company: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Company'
     }
 }, 
 {

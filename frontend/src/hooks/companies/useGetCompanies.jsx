@@ -2,6 +2,7 @@ import axios from "axios"
 import { useState } from "react"
 import { useCompaniesContext } from "../../hooks/companies/useCompaniesContext"
 import { useAuth } from "../../hooks/auth/useAuth"
+import { useNavigate } from "react-router-dom"
 
 const useGetCompanies = () => {
     const [error, setError] = useState(null)
@@ -10,9 +11,8 @@ const useGetCompanies = () => {
     const { url, user } = useAuth()
 
     const getCompanies = async () => {
-
+        console.log("Api for the thing");
         setLoading(true)
-
         try {
             const { data } = await axios.get(`${url}/companies`, {
                 headers: {

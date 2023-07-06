@@ -3,7 +3,6 @@ import { useDeleteCompany } from "../../hooks/companies/useDeleteCompany";
 
 const CompanyCard = ({name, contact: {tel, email}, id}) => {
     const { error, loading, deleteCompany } = useDeleteCompany()
-
     return ( 
         <div className="company-card-container container d-flex justfy-content-around">
             <p> {name} </p>
@@ -19,6 +18,7 @@ const CompanyCard = ({name, contact: {tel, email}, id}) => {
                 } }
                 disabled = {loading}
                 >Obrisi</button>
+
             </div>
         </div>
      );

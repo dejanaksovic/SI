@@ -16,7 +16,11 @@ export const AuthContextProvider = ({children}) => {
     }
 
     return (
+<<<<<<< HEAD
         <authContext.Provider value={{user, loginUser, logOut, url: import.meta.env.VITE_SERVER_URL}}>
+=======
+        <authContext.Provider value={{state, dispatch, url: "http://localhost:3000"}}>
+>>>>>>> f8f26d305f4bf461cbfcd2d89ab5b3d31b347dd3
             {children}
         </authContext.Provider>
     )

@@ -15,7 +15,6 @@ const companySchema = mongoose.Schema({
         }
     },
 
-    jobs: [{type: mongoose.Types.ObjectId, ref: 'job'}],
 }, {
     timestamps: true,
 })

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { useUsersContext } from "../../../hooks/users/useUsersContext";
 import { useGetUsers } from "../../../hooks/users/useGetUsers";
 //COMPONENTS
-import Navbar from "../../../components/Navbar"
 import UserCard from "../../../components/UserCard";
 import { FaSearch } from "react-icons/fa";
 
@@ -41,7 +40,6 @@ const Users = () => {
 
     return (
         <div>
-            <Navbar />
             { loading === 0 && 
             <div className="container d-flex justify-content-around align-items-center">
                 <div className="spinner-border text-primary loader" role="status">

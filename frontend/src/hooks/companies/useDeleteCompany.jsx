@@ -28,3 +28,4 @@ export const useDeleteCompany = () => {
 
    return { error, loading, deleteCompany }
 }
+

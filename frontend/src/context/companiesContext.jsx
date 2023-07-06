@@ -1,17 +1,20 @@
 import { createContext } from "react";
 import { useLocalStorage } from "../hooks/util/useLocalStorage";
 
+const setLocal = (payload) => {
+    localStorage.setItem('companies', JSON.stringify(payload))
+}
+
 export const companiesContext = createContext()
 
-export const CompaniesContextProvider = ({children}) => {
 
+const CompaniesContextProvider = ({children}) => {
     const [companies, setCompanies] = useLocalStorage("companies", [])
 
     const addNewCompany = ( newCompany ) => {
         setCompanies(prevCompanies => {
             return [...prevCompanies, newCompany]
         })
-    }
 
     const removeCompanyById = ( id )  => {
         setCompanies( prevCompanies => {
@@ -26,6 +29,7 @@ export const CompaniesContextProvider = ({children}) => {
             {children}
         </companiesContext.Provider>
     );
+}
 }
  
 export default CompaniesContextProvider;

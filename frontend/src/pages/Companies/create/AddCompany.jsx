@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAddCompany } from "../../../hooks/companies/useAddCompany";
+import ActionMessage from "../../../components/ActionMessage/ActionMessage";
 
 const AddCompany = () => {
 
-    const { error, loading, addCompany } = useAddCompany()
+    const { message, loading, addCompany } = useAddCompany()
     const [ name, setName ] = useState("")
     const [ tel, setTel ] = useState("")
     const [ email, setEmail ] = useState("")
@@ -26,7 +27,9 @@ const AddCompany = () => {
                 <button disabled = {loading} className="btn btn-primary d-block mx-auto mt-4" onClick = {(e) => {
                     e.preventDefault()
                     addCompany(name, tel, email)
-                }}>KREIRAJ</button>
+                }}
+                disabled = {loading}>KREIRAJ</button>
+                <ActionMessage message={message} />
             </form>
         </div>
     );

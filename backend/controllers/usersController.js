@@ -1,7 +1,7 @@
 const User = require("../models/user")
-const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const Job = require('../models/job')
 
 const getUsers = async (req, res) => {
     const { id } = req.params
@@ -9,8 +9,13 @@ const getUsers = async (req, res) => {
     if (id) {
         try {
             const user = await User.findById(id)
+            const jobs = await Job.find({
+                doneBy: user._id
+            })
+
             return res.status(200).json({
-                user
+                user,
+                jobs
             })
         }
 
@@ -138,7 +143,7 @@ const loginUser = async (req, res) => {
 
         return res.status(200).json({
             user,
-            token: jwt.sign({id: user._id}, process.env.SECRET, {expiresIn: '30min'})
+            token: jwt.sign({id: user._id}, process.env.SECRET, {expiresIn: '24h'})
         })
     }
         catch(err) {

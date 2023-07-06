@@ -1,8 +1,8 @@
 import './style.css'
-
 import { useState } from "react";
 import { useAddUser } from "../../../hooks/users/useAddUser";
 import { useNavigate } from "react-router-dom";
+import ActionMessage from '../../../components/ActionMessage/ActionMessage';
 
 const AddUserFrom = () => {
     const navigate = useNavigate()
@@ -12,7 +12,7 @@ const AddUserFrom = () => {
     const [ password, setPassword ] = useState("")
     const [ role, setRole ] = useState("")
 
-    const { error, loading, addUser } = useAddUser()
+    const { message, loading, addUser } = useAddUser()
 
     const addHandler = async (e) => {
         await addUser(name, email, password, role)
@@ -42,9 +42,10 @@ const AddUserFrom = () => {
                     </select>
                 </div>
                 <button disabled = {loading}  onClick={ addHandler } className="btn btn-success d-block mx-auto mt-4">KREIRAJ</button>
+                { message &&
                 <form-group>
-                    <p className="text-sm text-danger">{error}</p>
-                </form-group>
+                    <ActionMessage message={message}/>
+                </form-group>}
             </form>
         </div>
      );

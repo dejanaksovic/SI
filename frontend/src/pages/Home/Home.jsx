@@ -1,4 +1,3 @@
-import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "../../hooks/auth/useAuth";
@@ -13,7 +12,6 @@ const Home = () => {
 
     return ( 
         <div>
-            <Navbar />
         </div>
      );
 }

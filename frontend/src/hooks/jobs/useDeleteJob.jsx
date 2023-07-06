@@ -1,32 +1,35 @@
-import { useContext, useState } from "react";
-import { useUsersContext } from "./useUsersContext";
+import { useState } from "react";
+import { useJobContext } from "./useJobContext";
 import axios from 'axios'
-import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/useAuth";
 
-const useGetUsers = () => {
+const useDeleteJob = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     
-    const { url, state } = useContext(authContext)
-    const { dispatch } = useUsersContext()
+    const { url, state } = useAuth()
+    const { dispatch } = useJobContext()
 
-    const getUsers = async () => {
+    const deleteJob = async ( id ) => {
+
         setLoading(true)
 
         try {
-            const { data } = await axios.get(`${url}/users`, {
-                headers: {
+            const { data } = await axios.delete(`${url}/jobs/${id}`, {
+            headers: {
                     'Authorization': `Bearer ${state.token}`
                 }
-            })
-            dispatch({ type: "SET_USERS", payload: {...data, expiers: Date.now() + 60000} })
-            setError(null)
-            console.log("Through");
+            }
+            )
+            console.log(data);
+            dispatch({ type: "DELETE_JOB", payload: data.job })
+            setError(false)
         }
 
         catch(err) {
+            console.log(err);
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')
@@ -46,8 +49,8 @@ const useGetUsers = () => {
 
     }
 
-    return { error, loading, getUsers }
+    return { error, loading, deleteJob }
  
 }
 
-export { useGetUsers }
+export { useDeleteJob }

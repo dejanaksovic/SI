@@ -31,7 +31,7 @@ const useAddCompany = () => {
             )
             console.log(data);
             addNewCompany(data.company)
-            setError(false)
+            setMessage({ok: true, message: "Uspesno postavljen artikal"})
 
         }
 

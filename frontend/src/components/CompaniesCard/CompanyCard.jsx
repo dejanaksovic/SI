@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { useDeleteCompany } from "../../hooks/companies/useDeleteCompany";
 
 const CompanyCard = ({name, contact: {tel, email}, id}) => {
@@ -18,7 +17,6 @@ const CompanyCard = ({name, contact: {tel, email}, id}) => {
                 } }
                 disabled = {loading}
                 >Obrisi</button>
-
             </div>
         </div>
      );

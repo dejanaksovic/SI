@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/auth/useAuth"
 
 const Navbar = () => { 
-    const { user } = useAuth()
 
     return ( 
         <nav className="main-nav">
@@ -16,9 +14,9 @@ const Navbar = () => {
                 <li>
                     <Link to={"/jobs"}>Poslovi</Link>
                 </li>
-                { user?.role === "ADMIN" ? <li>
+                <li>
                     <Link to={"/users"}>Korisnici</Link>
-                </li> : null }
+                </li>
             </ul>
         </nav>
      );

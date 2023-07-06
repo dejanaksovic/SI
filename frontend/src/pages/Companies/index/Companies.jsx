@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
 import { useNavigate } from "react-router-dom";
 import { useCompaniesContext } from "../../../hooks/companies/useCompaniesContext";
+import { Grid, Button, Box } from "@mui/material";
 
 const Companies = () => {
 
@@ -15,19 +16,38 @@ const Companies = () => {
     }, [] )
 
     return ( 
-        <div className="container">
-            <div className="container d-flex">
-                <button className="btn btn-success d-block" onClick={ (e) => {
-                    e.preventDefault()
-                    navigate('/companies/add')
-                }}>Kreiraj kompaniju</button>
-            </div>
+      <Box>
+        <Grid sx = {{
+            display: {
+              xs: 'flex',
+              sm: "flex",
+              md: 'flex',
+              lg: 'grid', 
+            },
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            flexDirection: 'column',
+            gap: '2rem',
+            padding: '1rem',
+        }}>  
             {
                 companies?.map( e => {
-                    return <CompanyCard name={ e.name } contact={ e.contact } id={e._id} key={e._id}/>
+                    return <CompanyCard article = {e}/>
                 } ) 
             }
-        </div>
+        </Grid>
+        <Button
+         variant = "contained"
+         color = "primary"
+         sx = {{
+            display: 'block',
+            margin: '0 auto'
+         }}
+         onClick = { e => {
+            navigate('/companies/add')
+         } }>
+            Dodaj kompaniju
+        </Button>
+      </Box>
      );
 }
  

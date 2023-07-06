@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { useAddCompany } from "../../../hooks/companies/useAddCompany";
 import ActionMessage from "../../../components/ActionMessage/ActionMessage";
+import { 
+    FormLabel,
+    Input,
+    Button,
+    FormControl,
+    Grid,
+    TextField
+} from "@mui/material";
 
 const AddCompany = () => {
 
@@ -10,28 +18,52 @@ const AddCompany = () => {
     const [ email, setEmail ] = useState("")
 
     return (
-        <div className="container">
-            <form>
-                <div className="form-group">
-                    <label className="form-label" htmlFor="name">Ime: </label>
-                    <input className="form-control" value={name} onChange = {e => {setName(e.target.value)}} id="name" type="text" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="tel" className="form-label">Kontakt telefon: </label>
-                    <input type="text" value={tel} onChange = {e => setTel(e.target.value)} className="form-control" id="tel" />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email" className="form-label">Kontakt imejl: </label>
-                    <input type="text" value = {email} onChange = {e => {setEmail(e.target.value)}} className="form-control" id="email" />
-                </div>
-                <button disabled = {loading} className="btn btn-primary d-block mx-auto mt-4" onClick = {(e) => {
-                    e.preventDefault()
-                    addCompany(name, tel, email)
-                }}
-                >KREIRAJ</button>
-                <ActionMessage message={message} />
-            </form>
-        </div>
+      <form>
+         <Grid sx = {{
+            maxWidth: 'max(60vw, 600px)',
+            margin: '0 auto',
+            flexDirection: 'column',
+            padding: '1rem',
+            gap: '1rem',
+            display: 'flex',
+               }}>
+          <FormControl fullWidth>
+              <TextField
+               label = "Ime"
+               value={name}
+               onChange = {e => {setName(e.target.value)}}
+               />
+          </FormControl>
+          <FormControl fullWidth>
+              <TextField 
+              label = "Telefon"
+              value={tel}
+              onChange = {e => setTel(e.target.value)}
+              />
+          </FormControl>
+          <FormControl fullWidth>
+              <TextField
+               label = "Kontakt imejl"
+               value = {email}
+               onChange = {e => {setEmail(e.target.value)}}
+               />
+          </FormControl>
+          <Button
+               disabled = {loading}
+               color = "primary"
+               variant = "contained"
+               sx = {{
+                  display: 'block',
+                  margin: '0 auto'
+               }}
+               onClick = {(e) => {
+               e.preventDefault()
+               addCompany(name, tel, email)
+          }}
+          >KREIRAJ</Button>
+         <ActionMessage message={message} />
+            </Grid>
+         </form>
     );
 }
 

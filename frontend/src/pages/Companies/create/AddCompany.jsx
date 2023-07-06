@@ -28,7 +28,7 @@ const AddCompany = () => {
                     e.preventDefault()
                     addCompany(name, tel, email)
                 }}
-                disabled = {loading}>KREIRAJ</button>
+                >KREIRAJ</button>
                 <ActionMessage message={message} />
             </form>
         </div>

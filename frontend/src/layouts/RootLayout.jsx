@@ -1,18 +1,16 @@
-import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const RootLayout = () => {
-    return ( 
-        <>
-            <header>
-                <Navbar />
-            </header>
-
-            <main>
-                <Outlet />
-            </main>
-        </>
-     )
+   console.log("Inside root");
+   return ( <div>
+      <header>
+         <Navbar/>
+      </header>
+      <main>
+         <Outlet/>
+      </main>
+   </div> );
 }
  
 export default RootLayout;

@@ -2,12 +2,12 @@ import { useContext } from "react";
 import { authContext } from "../../context/authContext";
 
 const useAuth = () => {
-    const { state, dispatch, url } = useContext(authContext)
+    const context = useContext(authContext)
 
-    if(state === undefined)
+    if(!context)
         throw Error("UseAuth must be used inside auth context")
 
-    return  { state, dispatch, url }
+    return context
 }
 
 export { useAuth }

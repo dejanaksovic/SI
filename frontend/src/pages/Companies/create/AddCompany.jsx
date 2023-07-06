@@ -23,7 +23,7 @@ const AddCompany = () => {
                     <label htmlFor="email" className="form-label">Kontakt imejl: </label>
                     <input type="text" value = {email} onChange = {e => {setEmail(e.target.value)}} className="form-control" id="email" />
                 </div>
-                <button className="btn btn-primary d-block mx-auto mt-4" onClick = {(e) => {
+                <button disabled = {loading} className="btn btn-primary d-block mx-auto mt-4" onClick = {(e) => {
                     e.preventDefault()
                     addCompany(name, tel, email)
                 }}>KREIRAJ</button>

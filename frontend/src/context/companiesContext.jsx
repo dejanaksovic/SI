@@ -1,38 +1,28 @@
-import { useReducer } from "react";
 import { createContext } from "react";
+import { useLocalStorage } from "../hooks/util/useLocalStorage";
 
 export const companiesContext = createContext()
 
-const companiesReducer = (state, action) => {
-    switch(action.type) {
-        case "SET_COMPANIES":
-            return {companies: action.payload}
-        case "ADD_COMPANY": {
-            console.log(state);
-            return {companies: [...state.companies, action.payload]}
-        }
-        case "DELETE_COMPANY":
-            return {companies: state.companies.filter ( e => { e.id != payload.id })}
-        default:
-            return state
-    }
-}
-
 export const CompaniesContextProvider = ({children}) => {
 
-    let companies = localStorage.getItem('companies')
+    const [companies, setCompanies] = useLocalStorage("companies", [])
 
-    if(companies)
-        companies = JSON.parse(companies)
-    
-    else {
-        companies = {companies: [], expires: Date.now()}
+    const addNewCompany = ( newCompany ) => {
+        setCompanies(prevCompanies => {
+            return [...prevCompanies, newCompany]
+        })
     }
 
-    const [state, dispatch] = useReducer(companiesReducer, companies)
+    const removeCompanyById = ( id )  => {
+        setCompanies( prevCompanies => {
+            return [...prevCompanies.filter( e => {
+                return e._id !== id
+            } )]
+        } )
+    }
 
     return ( 
-        <companiesContext.Provider value={{state, dispatch}}>
+        <companiesContext.Provider value={{companies, setCompanies, addNewCompany, removeCompanyById}}>
             {children}
         </companiesContext.Provider>
     );

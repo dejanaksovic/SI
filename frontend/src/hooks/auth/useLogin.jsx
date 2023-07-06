@@ -8,7 +8,7 @@ const useLogin = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(null)
 
-    const { dispatch, url } = useAuth()
+    const { loginUser, url } = useAuth()
 
     const login = async(email, password) => {
         setLoading(true)
@@ -20,9 +20,7 @@ const useLogin = () => {
             })
 
             setError(null)
-
-            dispatch({type: "LOG_IN", payload: response.data})
-
+            loginUser(response.data)
             navigate('/')
         }
 

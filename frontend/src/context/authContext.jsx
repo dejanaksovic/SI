@@ -1,40 +1,22 @@
-import { createContext, useReducer } from "react";
+import { createContext } from "react";
+import { useLocalStorage } from "../hooks/util/useLocalStorage";
 
 export const authContext = createContext()
 
-const authReducer = (state, action) => {
-
-   switch (action.type) {
-        case "LOG_IN": {
-            localStorage.setItem('user', JSON.stringify(action.payload))
-            return action.payload;
-        }
-        case "LOG_OUT":{
-            localStorage.removeItem('user')
-            return {user: null}
-        }
-        default:
-            return state;
-   }
-
-}
-
 export const AuthContextProvider = ({children}) => {
     
-    let prevUser = localStorage.getItem('user')
+    const [ user, setUser ] = useLocalStorage('user', null)
 
-    if(prevUser) {
-        prevUser = JSON.parse(prevUser)
-    }
-    
-    else {
-        prevUser = null
+    const loginUser = (user) => {
+        setUser(user)
     }
 
-    const [state, dispatch] = useReducer(authReducer, prevUser)
+    const logOut = () => {
+        setUser(null)
+    }
 
     return (
-        <authContext.Provider value={{state, dispatch, url: "https://dvd-api.onrender.com"}}>
+        <authContext.Provider value={{user, loginUser, logOut, url: import.meta.env.VITE_SERVER_URL}}>
             {children}
         </authContext.Provider>
     )

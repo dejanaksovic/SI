@@ -6,28 +6,28 @@ import { useAuth } from "../../hooks/auth/useAuth"
 const useGetCompanies = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const { dispatch } = useCompaniesContext()
-    const { url, state } = useAuth()
+    const { setCompanies } = useCompaniesContext()
+    const { url, user } = useAuth()
 
     const getCompanies = async () => {
 
         setLoading(true)
 
         try {
-
             const { data } = await axios.get(`${url}/companies`, {
                 headers: {
-                    'Authorization': `Bearer ${state.token}`
+                    'Authorization': `Bearer ${user.token}`
                 }
             })
-            dispatch({ type: "SET_COMPANIES", payload: {...data, expiers: Date.now() + 60000} })
+            console.log(data.companies);
+            setCompanies(data.companies)
             setError(null)
         }
 
         catch(err) {
+            console.log(err);
             if(err.response) {
                 if (err.response.status === 401) {
-                    navigate('/login')
                     return
                 }
                 setError(err.response.data.err)
@@ -41,7 +41,6 @@ const useGetCompanies = () => {
         }
 
         setLoading(false)
-
     }
 
     return { error, loading, getCompanies }

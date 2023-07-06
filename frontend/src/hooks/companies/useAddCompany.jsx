@@ -1,16 +1,17 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useCompaniesContext } from "./useCompaniesContext";
 import axios from 'axios'
-import { authContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/useAuth";
 
 const useAddCompany = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     
-    const { url, state } = useContext(authContext)
-    const { dispatch } = useCompaniesContext()
+    const { url, user } = useAuth()
+
+    const { addNewCompany } = useCompaniesContext()
 
     const addCompany = async (name, tel, email ) => {
 
@@ -24,12 +25,12 @@ const useAddCompany = () => {
         },
             {
                 headers: {
-                    'Authorization': `Bearer ${state.token}`
+                    'Authorization': `Bearer ${user.token}`
                 }
             }
             )
             console.log(data);
-            dispatch({ type: "ADD_COMPANY", payload: data.company })
+            addNewCompany(data.company)
             setError(false)
         }
 

@@ -23,6 +23,7 @@ const getJobs = async (req, res) => {
         }
 
         catch(err) {
+            console.log(err)
             return res.status(200).json({
                 err
             })
@@ -70,6 +71,7 @@ const getJobs = async (req, res) => {
     }
 
     catch(err) {
+        console.log(err);
         return res.status(400).json({
             err
         })

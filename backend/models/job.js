@@ -13,7 +13,7 @@ const JobSchema = mongoose.Schema({
 
     status: {
         type: String,
-        enum: ["DOSTUPAN", "ZAUZET", "NA_CEKANJU", "ODRADJEN"],
+        enum: ["DOSTUPAN", "ZAUZET", "NA CEKANJU", "ODRADJEN"],
         default: "AVAILABLE",
     },
 

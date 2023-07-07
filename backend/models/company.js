@@ -6,14 +6,13 @@ const companySchema = mongoose.Schema({
         required: [true, "Company has to have a name"]
     },
 
-    contact: {
-        tel: {
-            type:String
-        },
-        email: {
-            type:String,
-            unique: true,
-        }
+    tel: {
+        type:String
+    },
+    
+    email: {
+        type:String,
+        unique: true,
     },
 
     adress: {

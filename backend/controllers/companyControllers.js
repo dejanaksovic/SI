@@ -69,7 +69,7 @@ const deleteCompany = async (req, res) => {
         console.log(company);
 
         await Job.deleteMany({
-            _id: {$in: company.jobs}
+            company: id
         })
 
          return res.status(200).json({

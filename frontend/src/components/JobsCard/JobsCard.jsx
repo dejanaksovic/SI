@@ -14,6 +14,8 @@ const JobsCard = ({job}) => {
     useEffect(() => {
         if(!getCompanyById(job.company))
             getCompanies(job.company)
+
+        console.log(job);
     }, [])
 
     return ( 

@@ -31,7 +31,7 @@ const Companies = () => {
         }}>  
             {
                 companies?.map( e => {
-                    return <CompanyCard article = {e}/>
+                    return <CompanyCard key = {e._id} article = {e}/>
                 } ) 
             }
         </Grid>

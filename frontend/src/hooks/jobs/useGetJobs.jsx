@@ -23,7 +23,7 @@ export const useGetJobs = () => {
             setLoading(false)
         }
         catch(err) {
-            console.log(err);
+            console.log(err.data.err);
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')

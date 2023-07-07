@@ -34,11 +34,11 @@ const CompanyCard = ( { article } ) => {
                   variant = "contained">Izmeni</Button>
                   <Button 
                   color = "error"
+                  disabled = {loading}
                   variant = "contained"
                   onClick={ e =>{
                     deleteCompany(article._id)
                   } }
-                  disabled = {loading}
                   >Obrisi</Button>
               </ButtonGroup>
           </Grid>

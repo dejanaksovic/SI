@@ -32,7 +32,7 @@ const useAddJob = () => {
         }
 
         catch(err) {
-            console.log(err.response.data.err);
+            console.log(err);
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')

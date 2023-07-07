@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useLogin } from "../hooks/auth/useLogin";
 
-import {FaUser, FaKey} from "react-icons/fa"
-
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')

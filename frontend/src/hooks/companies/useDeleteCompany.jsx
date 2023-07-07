@@ -5,7 +5,7 @@ import { useCompaniesContext } from "./useCompaniesContext"
 
 export const useDeleteCompany = () => {
    const [ error, setError ] = useState(0)
-   const [ loading, setLoading ] = useState(0)
+   const [ loading, setLoading ] = useState(false)
    const { url, user } = useAuth()
    const { removeCompanyById } = useCompaniesContext()
 

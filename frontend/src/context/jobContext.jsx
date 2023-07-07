@@ -19,8 +19,17 @@ const JobContextProvider = ({children}) => {
         } )
     }
 
+    const getFilteredJobs = ( filterName, filterValue ) => {
+        console.log(jobs)
+        console.log(filterName, filterValue)
+        jobs.forEach( e => {
+            console.log(e[filterName] === filterValue)
+        } )
+        return jobs.filter( e => e[filterName] === filterValue )
+    }
+
     return (
-    <jobContext.Provider value={{jobs, setJobs, addNewJob, deleteJobById}}>
+    <jobContext.Provider value={{jobs, setJobs, addNewJob, deleteJobById, getFilteredJobs}}>
         {children}
     </jobContext.Provider>
     )

@@ -1,4 +1,3 @@
-import { FaUser } from "react-icons/fa";
 import { useDeleteUser } from "../hooks/users/useDeleteUser";
 import { useNavigate } from "react-router-dom";
 

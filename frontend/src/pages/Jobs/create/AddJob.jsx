@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAddJob } from "../../../hooks/jobs/useAddJob";
 import { useCompaniesContext } from "../../../hooks/companies/useCompaniesContext";
 import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
@@ -14,21 +14,23 @@ import {
 
 //UTILITIES
 import { types, statuses } from "../../../utils/jobUtils";
+import { useLocation } from "react-router-dom";
 
 const AddJob = () => {
     const { companies } = useCompaniesContext()
     const { getCompanies } = useGetCompanies()
 
-    useEffect( () => {
-            getCompanies()
-    }, [] )
+    const { search } = useLocation()
+
+    const initialId = useMemo( () => {
+        return new URLSearchParams(search).get('id')
+    }, [search])
 
     const [ price, setPrice ] = useState("")
     const [ type, setType ] = useState("")
     const [ status, setStatus ] = useState("")
-    const [ companyId, setCompanyId ] = useState("")
-    const [ date, setDate ] = useState(new Date()) 
-
+    const [ companyId, setCompanyId ] = useState(initialId || '')
+    const [ date, setDate ] = useState(`${new Date().getFullYear()}-${new Date().getDate()}-${new Date().getDay()}`) 
     const { error, loading, addJob } = useAddJob()
 
     const handleAdd = (e) => {
@@ -39,6 +41,10 @@ const AddJob = () => {
         setCompanyId("")
         setDate("")
     }
+
+    useEffect( () => {
+        getCompanies()
+}, [] )
 
     return ( 
         <form>
@@ -87,7 +93,7 @@ const AddJob = () => {
                     <TextField 
                       type="date"
                       value={date} 
-                      onChange={(e) => {setDate(e.target.value)}}
+                      onChange={(e) => {setDate(e.target.value); console.log(date);}}
                       label={"Datum izrade"}/> 
                </FormGroup> : null}
                 <FormGroup>
@@ -100,7 +106,7 @@ const AddJob = () => {
                       value={companyId}
                       onChange= { e => { setCompanyId(e.target.value)}}>
                           {
-                              companies.map( e => <MenuItem key={e._id} value={e._id}> {e.name}</MenuItem> )
+                              companies.map( e => <MenuItem selected = { initialId === e._id } key={e._id} value={e._id}> {e.name}</MenuItem> )
                           }
                       </Select>
                   </FormGroup>

@@ -7,7 +7,6 @@ import { useUsersContext } from "../../../hooks/users/useUsersContext";
 import { useGetUsers } from "../../../hooks/users/useGetUsers";
 //COMPONENTS
 import UserCard from "../../../components/UserCard";
-import { FaSearch } from "react-icons/fa";
 
 
 const Users = () => {

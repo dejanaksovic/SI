@@ -37,6 +37,7 @@ const useAddCompany = () => {
         }
 
         catch(err) {
+            console.log(err.response.data)
             if(err.response) {
                 if (err.response.status === 401) {
                     navigate('/login')

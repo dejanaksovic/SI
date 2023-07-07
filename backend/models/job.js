@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const JobSchema = mongoose.Schema({
     type: {
         type: String,
-        enum: ["PPO", "SA", "EP"],
+        enum: ["protivpozarna obuka", "servisiranje aparata", "posebna obuka"],
         required: [true, "Job needs a type"]
     },
 
@@ -13,7 +13,7 @@ const JobSchema = mongoose.Schema({
 
     status: {
         type: String,
-        enum: ["AVAILABLE", "TAKEN", "STANDBY", "DONE"],
+        enum: ["DOSTUPAN", "ZAUZET", "NA_CEKANJU", "ODRADJEN"],
         default: "AVAILABLE",
     },
 

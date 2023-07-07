@@ -11,9 +11,14 @@ const companySchema = mongoose.Schema({
             type:String
         },
         email: {
-            type:String
+            type:String,
+            unique: true,
         }
     },
+
+    adress: {
+        type: String,
+    }
 
 }, {
     timestamps: true,

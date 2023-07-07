@@ -12,6 +12,7 @@ const serverError = () => {
 const getJobs = async (req, res) => {
     
     const { id } = req.params
+    const { email } = req.query
 
     if(id) {
         try {
@@ -26,6 +27,39 @@ const getJobs = async (req, res) => {
                 err
             })
         }
+    }
+
+    if(email) {
+        try { 
+        const company = await Company.find({
+            email,
+        })
+
+        if(!company)
+            return res.status(400).json({
+                err: "Kompanija sa tim mejlom nije pronadjena"
+            })
+
+        const jobs = await Job.find({
+            companyId: company._id
+        })
+
+        if(!jobs) {
+            return res.status(400).json({
+                err: "Ta kompanija nema nikakve poslove"
+            })
+        }
+
+        return res.status(200).json(
+            jobs
+        )
+    }
+        catch(err){
+            console.log(err)
+                return res.status(500).json({
+                    err: "Greska pri komunikaciji sa serverom"
+                })
+        }    
     }
 
     try {

@@ -7,20 +7,20 @@ export const useGetJobs = () => {
     const [ error, setError ] = useState(null)
     const [ loading, setLoading ] = useState(false)
     
-    const { state, url } = useAuth()
-    const { dispatch } = useJobContext()
+    const { user, url } = useAuth()
+    const { setJobs } = useJobContext()
 
     const getJobs = async () => {
         setLoading(true)
         try {
             const res = await axios.get(`${url}/jobs`, {
                 headers: {
-                    Authorization: `Bearer ${state.token}`
+                    Authorization: `Bearer ${user.token}`
                 }
             })
-            console.log(res);
+            console.log(res.data);
+            setJobs(res.data.jobs)
             setLoading(false)
-            dispatch({type: "SET_JOBS", payload: res.data.jobs})
         }
         catch(err) {
             console.log(err);

@@ -16,6 +16,7 @@ const AddCompany = () => {
     const [ name, setName ] = useState("")
     const [ tel, setTel ] = useState("")
     const [ email, setEmail ] = useState("")
+    const [ address, setAddress ] = useState("")
 
     return (
       <form>
@@ -48,6 +49,14 @@ const AddCompany = () => {
                onChange = {e => {setEmail(e.target.value)}}
                />
           </FormControl>
+          <FormControl fullWidth>
+               <TextField
+               label = "Adresa"
+               value = {address}
+               onChange = { e => {
+                setAddress(e.target.value)
+               } }/>
+          </FormControl>
           <Button
                disabled = {loading}
                color = "primary"
@@ -58,7 +67,7 @@ const AddCompany = () => {
                }}
                onClick = {(e) => {
                e.preventDefault()
-               addCompany(name, tel, email)
+               addCompany(name, tel, email, address)
           }}
           >KREIRAJ</Button>
          <ActionMessage message={message} />

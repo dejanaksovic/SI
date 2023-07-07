@@ -9,8 +9,8 @@ const useDeleteJob = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     
-    const { url, state } = useAuth()
-    const { dispatch } = useJobContext()
+    const { url, user } = useAuth()
+    const { deleteJobById } = useJobContext()
 
     const deleteJob = async ( id ) => {
 
@@ -19,12 +19,12 @@ const useDeleteJob = () => {
         try {
             const { data } = await axios.delete(`${url}/jobs/${id}`, {
             headers: {
-                    'Authorization': `Bearer ${state.token}`
+                    'Authorization': `Bearer ${user.token}`
                 }
             }
             )
             console.log(data);
-            dispatch({ type: "DELETE_JOB", payload: data.job })
+            deleteJobById(id)
             setError(false)
         }
 

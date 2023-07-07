@@ -8,9 +8,9 @@ const useAddJob = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     
-    const { state, url } = useAuth()
+    const { user, url } = useAuth()
 
-    const {dispatch} = useJobContext()
+    const { addNewJob } = useJobContext()
 
     const addJob = async (type, price, status, companyId, doneDate) => {
         console.log(type, price, status, companyId);
@@ -20,14 +20,15 @@ const useAddJob = () => {
                 type,
                 price,
                 status,
-                companyId
+                companyId,
+                doneDate,
             }, {
                 headers:{
-                    Authorization: `Bearer ${state.token}`
+                    Authorization: `Bearer ${user.token}`
                 }
             })
             console.log(res.data);
-            dispatch({type: "ADD_JOB", payload: res.data.job})
+            addNewJob(res.data.job)
         }
 
         catch(err) {

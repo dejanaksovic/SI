@@ -13,7 +13,7 @@ const useAddCompany = () => {
 
     const { addNewCompany } = useCompaniesContext()
 
-    const addCompany = async (name, tel, email ) => {
+    const addCompany = async (name, tel, email, adress ) => {
 
         setLoading(true)
 
@@ -21,7 +21,8 @@ const useAddCompany = () => {
             const { data } = await axios.post(`${url}/companies`, {
             name,
             email,
-            tel
+            tel,
+            adress
         },
             {
                 headers: {

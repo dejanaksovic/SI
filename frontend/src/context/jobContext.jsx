@@ -1,48 +1,26 @@
 import { createContext, useReducer } from "react";
-
-const setLocal = (payload) => {
-    localStorage.setItem('jobs', JSON.stringify(payload))
-}
+import { useLocalStorage } from "../hooks/util/useLocalStorage";
 
 export const jobContext = createContext()
 
-const jobReducer = (state, action) => {
-    switch(action.type) {
-        case "SET_JOBS": {
-            setLocal({jobs: action.payload})
-            return {jobs: action.payload}
-        }
-        case "ADD_JOB": {
-            setLocal({jobs: [...state.jobs, action.payload]})
-            return {jobs: [...state.jobs, action.payload]}
-        }
-        case "DELETE_JOB": {
-            console.log(action.payload._id);
-            setLocal({jobs: state.jobs.filter( e => e._id !== action.payload._id )})
-            return {jobs: state.jobs.filter( e => e._id !== action.payload._id )}
-        }
-        case "CHANGE_JOB": {
-            console.log(action.payload);
-            setLocal({jobs: [...state.jobs.filter( e => e._id !== action.payload._id ), action.payload]})
-            return {jobs: [...state.jobs.filter( e => e._id !== action.payload._id ), action.payload]}
-        }
-    }
-}
-
 const JobContextProvider = ({children}) => {
-    let initJobs = localStorage.getItem('jobs')
     
-    if(initJobs) {
-        initJobs = JSON.parse(initJobs)
-    }
-    else {
-        initJobs = {jobs: []}
+    const [jobs, setJobs] = useLocalStorage("jobs", [])
+
+    const addNewJob = (job) => {
+        setJobs( prevJobs => {
+            return [...prevJobs, job]
+        } )
     }
 
-    const [state, dispatch] = useReducer(jobReducer, initJobs)
+    const deleteJobById = (id) => {
+        setJobs( prevJobs => {
+            return [...prevJobs.filter( job => job._id !== id )]
+        } )
+    }
 
     return (
-    <jobContext.Provider value={{state, dispatch}}>
+    <jobContext.Provider value={{jobs, setJobs, addNewJob, deleteJobById}}>
         {children}
     </jobContext.Provider>
     )

@@ -20,8 +20,12 @@ const CompaniesContextProvider = ({children}) => {
         } )
     }
 
+    const getCompanyById = (id) => {
+        return companies.find( e => e._id === id )
+    }
+
     return ( 
-        <companiesContext.Provider value={{companies, setCompanies, addNewCompany, removeCompanyById}}>
+        <companiesContext.Provider value={{companies, getCompanyById, setCompanies, addNewCompany, removeCompanyById}}>
             {children}
         </companiesContext.Provider>
     );

@@ -9,10 +9,11 @@ const useGetCompanies = () => {
     const { setCompanies } = useCompaniesContext()
     const { url, user } = useAuth()
 
-    const getCompanies = async () => {
+    const getCompanies = async (id) => {
         setLoading(true)
         try {
-            const { data } = await axios.get(`${url}/companies`, {
+            console.log(id);
+            const { data } = await axios.get(`${url}/companies/${id ?? ''}`, {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }

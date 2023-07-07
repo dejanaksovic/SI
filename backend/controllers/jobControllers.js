@@ -12,7 +12,7 @@ const serverError = () => {
 const getJobs = async (req, res) => {
     
     const { id } = req.params
-    const { email } = req.query
+    const { companyEmail } = req.query
 
     if(id) {
         try {
@@ -30,10 +30,10 @@ const getJobs = async (req, res) => {
         }
     }
 
-    if(email) {
+    if(companyEmail) {
         try { 
         const company = await Company.find({
-            email,
+            companyEmail,
         })
 
         if(!company)
@@ -80,6 +80,8 @@ const getJobs = async (req, res) => {
 
 const addJob = async (req, res) => {
     const {type, status, price, companyId, doneDate, doneBy, isRenewable} = req.body
+
+    console.log(doneDate);
 
     if(!companyId || !mongoose.isValidObjectId(companyId)) {
         return res.status(400).json({
@@ -146,8 +148,8 @@ const addJob = async (req, res) => {
             status,
             price,
             company: companyId,
-            doneDate: status !== "DONE" ? null : doneDate,
-            doneBy: status === "AVAILABLE" ? null : doneBy,
+            doneDate: status !== "ODRADJEN" ? null : doneDate,
+            doneBy: status === "DOSTUPAN" ? null : doneBy,
             isRenewable            
         })
 

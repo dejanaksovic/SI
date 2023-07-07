@@ -36,14 +36,14 @@ const getCompanies = async (req, res) =>{
 
 const addCompany = async (req, res) => {
     const { name, tel, email, adress } = req.body
+    
+    console.log(name, tel, email, adress);
 
     try {
         const company = await Company.create({
             name,
-            contact: {
-                tel,
-                email
-            },
+            tel,
+            email,
             adress,
         })
 
@@ -53,6 +53,8 @@ const addCompany = async (req, res) => {
     }
 
     catch(err) {
+        console.log(err);
+
         return res.status(400).json({
             err
         })

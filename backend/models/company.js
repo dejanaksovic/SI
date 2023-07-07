@@ -12,7 +12,7 @@ const companySchema = mongoose.Schema({
     
     email: {
         type:String,
-        unique: true,
+        unique: [true, "Email not unique"]
     },
 
     adress: {
@@ -23,6 +23,6 @@ const companySchema = mongoose.Schema({
     timestamps: true,
 })
 
-const Company = mongoose.model("companty", companySchema)
+const Company = mongoose.model("company", companySchema)
 
 module.exports = Company

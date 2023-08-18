@@ -7,13 +7,14 @@ import { useUsersContext } from "../../../hooks/users/useUsersContext";
 import { useGetUsers } from "../../../hooks/users/useGetUsers";
 //COMPONENTS
 import UserCard from "../../../components/UserCard";
+import { Button, Box } from "@mui/material"
 
 const Users = () => {
     const navigate = useNavigate()
 
     const { loading, getUsers } = useGetUsers()
     const { users: usersState } = useUsersContext()
-    const [users, setUsers] = useState([])
+    const [ users, setUsers ] = useState([])
 
     const [filtersOn, setFiltersOn] = useState(false)
 
@@ -34,7 +35,7 @@ const Users = () => {
         }
 
         getNewUsers()
-    }, [usersState])
+    }, [ usersState ])
 
     return (
         <div>
@@ -50,8 +51,15 @@ const Users = () => {
                     <h2>Korisnici <span>{usersState?.length}</span></h2>
                 </div>
                 <div className="col d-flex justify-content-center gap-4 align-items-center">
-                    <div className="filter-trigger" onClick={ e => {setFiltersOn( (prevFiltersOn) => { return !prevFiltersOn } )} }>Filteri</div>
-                    <button className="btn btn-success" onClick={handleAddClick}> + Dodaj korisnika</button>
+                    <Box sx = {{
+                        '&:hover': {
+                            cursor: 'pointer'
+                        }
+                    }} onClick={ e => {setFiltersOn( (prevFiltersOn) => { return !prevFiltersOn } )} }>Filteri</Box>
+                    <Button variant = "contained" color = "success" sx = {{
+                        maxWidth: 'fit-content',
+                        padding: '.5rem 1rem'
+                    }} onClick={handleAddClick}> + Dodaj korisnika</Button>
                 </div>
             </div>
             
@@ -64,9 +72,6 @@ const Users = () => {
                         <option value="boss">SEF</option>
                         <option value="user">KORISNIK</option>
                     </select>
-                    <button>
-                        <FaSearch />
-                    </button>
                 </div> }
                 <div className="container users-container-main">
                     {

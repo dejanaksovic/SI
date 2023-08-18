@@ -1,5 +1,6 @@
 import { useDeleteUser } from "../hooks/users/useDeleteUser";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material"
 
 const UserCard = ({name, email, role, id}) => {
 
@@ -34,8 +35,8 @@ const UserCard = ({name, email, role, id}) => {
                 <div className="col email">{email}</div>
                 <div className="col role" style={ {color: color} }>{role}</div>
                 <div className="col d-flex gap-4">
-                    <button className="btn btn-warning" onClick={ e => {navigate(`/users/change/${id}`)} }>IZMENI</button>
-                    <button className="btn btn-danger" disabled = {loading} onClick={deleteHandler} >OBRISI</button>
+                    <Button variant = 'contained' color = 'error' onClick={ e => {navigate(`/users/change/${id}`)} }>IZMENI</Button>
+                    <Button variant = 'contained' color = 'warning'  disabled = {loading} onClick={deleteHandler} >OBRISI</Button>
                 </div>
             </div>
             { error && <p className="text-sm text-danger"> {error} </p> }

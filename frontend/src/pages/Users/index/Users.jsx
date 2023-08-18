@@ -8,12 +8,11 @@ import { useGetUsers } from "../../../hooks/users/useGetUsers";
 //COMPONENTS
 import UserCard from "../../../components/UserCard";
 
-
 const Users = () => {
     const navigate = useNavigate()
 
-    const { error, loading, getUsers } = useGetUsers()
-    const { state: usersState } = useUsersContext()
+    const { loading, getUsers } = useGetUsers()
+    const { users: usersState } = useUsersContext()
     const [users, setUsers] = useState([])
 
     const [filtersOn, setFiltersOn] = useState(false)
@@ -26,7 +25,7 @@ const Users = () => {
 
         const getNewUsers = async () => {
             // if there are users in cache, don't make a request, expiery time is handled in context
-            if(usersState.users.length !== 0) {
+            if(usersState?.length !== 0) {
                 setUsers(usersState.users)
                 return
             }
@@ -39,20 +38,16 @@ const Users = () => {
 
     return (
         <div>
-            { loading === 0 && 
+            { !loading && 
             <div className="container d-flex justify-content-around align-items-center">
                 <div className="spinner-border text-primary loader" role="status">
                     <span className="sr-only"></span>
                 </div>
             </div> }
 
-            <div className="text text-danger">
-                <h2>{error}</h2>
-            </div>
-
             <div className="users-title row">
                 <div className="text col">
-                    <h2>Korisnici <span>{users.length}</span></h2>
+                    <h2>Korisnici <span>{usersState?.length}</span></h2>
                 </div>
                 <div className="col d-flex justify-content-center gap-4 align-items-center">
                     <div className="filter-trigger" onClick={ e => {setFiltersOn( (prevFiltersOn) => { return !prevFiltersOn } )} }>Filteri</div>
@@ -60,7 +55,7 @@ const Users = () => {
                 </div>
             </div>
             
-            { users.length !== 0 && <main className="users-main">
+            { usersState?.length !== 0 && <main className="users-main">
                 { filtersOn && <div className="filter-container" >
                     <input type="text" placeholder="Pretrazite po imenu"/>
                     <label htmlFor="role-search"></label>
@@ -75,7 +70,7 @@ const Users = () => {
                 </div> }
                 <div className="container users-container-main">
                     {
-                        users.map ( (e, i ) => (
+                        usersState?.map ( (e, i ) => (
                             <UserCard name = {e.name} email = {e.email} role = {e.role} id = {e._id} key = {e._id}/>
                         ))
                     }

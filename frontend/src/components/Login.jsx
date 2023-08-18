@@ -18,7 +18,6 @@ const Login = () => {
         <form className="login-form">
             <div className="form-group">
                 <div className="input-icon-group">
-                    <FaUser fill="#000A"/>
                     <input  type="text"
                             id="email"
                             value={email}
@@ -28,7 +27,6 @@ const Login = () => {
             </div>
             <div className="form-group">
                 <div className="input-icon-group">
-                    <FaKey fill="#000A"/>
                     <input  type="password" 
                             id="password"
                             placeholder="Sifra"

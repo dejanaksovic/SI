@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import { userContext } from "../../context/usersContext"
+import { usersContext } from "../../context/usersContext"
 
 const useUsersContext = () => {
-    const { state, dispatch } = useContext(userContext)
-    if(!state)
+    const context = useContext(usersContext)
+    if(!context)
         throw Error("User hook must be inside user context")
-    return { state, dispatch }
+    
+    return context
 }
 
 export { useUsersContext }

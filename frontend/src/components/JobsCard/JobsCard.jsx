@@ -4,12 +4,14 @@ import { ButtonGroup, Button, Typography, Box } from "@mui/material";
 import { useGetCompanies } from "../../hooks/companies/useGetCompanies";
 import { useCompaniesContext } from "../../hooks/companies/useCompaniesContext";
 import { useEffect } from "react";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 const JobsCard = ({job}) => {
-    const { loading, error, deleteJob } = useDeleteJob()
+    const { loading, deleteJob } = useDeleteJob()
     const navigate = useNavigate()
     const { getCompanies } = useGetCompanies()
     const { getCompanyById } = useCompaniesContext()
+    const { user } = useAuth()
 
     useEffect(() => {
         if(!getCompanyById(job.company))
@@ -26,12 +28,13 @@ const JobsCard = ({job}) => {
             borderColor: `${job.status === "ODRADJEN" ? 'success.main' : 'secondary.main'}`,
         }}>
             <NavLink to = {`/jobs/${job._id}`}>
+              <Typography variant = "p"> { job.status } </Typography>
               <Typography variant = "h4"> {job.type.charAt(0).toUpperCase()+job.type.slice(1)} </Typography>
               <Box>
                   <Typography>{getCompanyById(job.company)?.name}</Typography>
               </Box>
             </NavLink>
-              <ButtonGroup>
+              { user?.user?.role === "ADMIN" || user?.user?.role === "BOSS" ? <ButtonGroup>
                   <Button 
                       color = "warning"
                       variant = "contained"
@@ -47,7 +50,14 @@ const JobsCard = ({job}) => {
                     e.preventDefault()
                     deleteJob(job._id)
                 }}>Obrisi</Button>
-            </ButtonGroup>
+            </ButtonGroup> : 
+                null
+            }
+
+            { user?.user?.role === "USER" && job?.status === "DOSTUPAN" ? 
+                <Button color = "primary" variant = "contained">Preuzmi posao</Button> :
+                null 
+            }
         </Box>
      );
 }

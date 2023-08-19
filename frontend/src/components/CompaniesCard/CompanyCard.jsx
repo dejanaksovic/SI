@@ -1,10 +1,13 @@
 import { Grid, Typography, Button, ButtonGroup } from "@mui/material";
 import { useDeleteCompany } from "../../hooks/companies/useDeleteCompany";
 import { NavLink } from "react-router-dom";
+import { useAuth } from "../../hooks/auth/useAuth";
 
 const CompanyCard = ( { article } ) => {
-    const { error, loading, deleteCompany } = useDeleteCompany()
+    const { loading, deleteCompany } = useDeleteCompany()
     const createdAtDate = new Date(article.createdAt)
+    const { user } = useAuth()
+
     return ( 
           <Grid sx = {{
               border: '2px solid',
@@ -25,7 +28,7 @@ const CompanyCard = ( { article } ) => {
                   <p>Email: {article?.contact?.email}</p>
               </div>
             </NavLink>
-              <ButtonGroup 
+              { user?.user?.role === "ADMIN" || user?.user?.role === "BOSS" ? <ButtonGroup 
                 sx = {{
                     marginTop: 'auto',
               }}>
@@ -39,8 +42,9 @@ const CompanyCard = ( { article } ) => {
                   onClick={ e =>{
                     deleteCompany(article._id)
                   } }
-                  >Obrisi</Button>
-              </ButtonGroup>
+                  >Obrisi</Button> 
+              </ButtonGroup> :
+              null }
           </Grid>
      );
 }

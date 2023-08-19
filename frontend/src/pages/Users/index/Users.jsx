@@ -27,11 +27,11 @@ const Users = () => {
         const getNewUsers = async () => {
             // if there are users in cache, don't make a request, expiery time is handled in context
             if(usersState?.length !== 0) {
-                setUsers(usersState.users)
+                setUsers(usersState)
                 return
             }
             await getUsers()
-            setUsers(usersState.users)
+            setUsers(usersState)
         }
 
         getNewUsers()
@@ -48,7 +48,7 @@ const Users = () => {
 
             <div className="users-title row">
                 <div className="text col">
-                    <h2>Korisnici <span>{usersState?.length}</span></h2>
+                    <h2>Korisnici <span>{users?.length}</span></h2>
                 </div>
                 <div className="col d-flex justify-content-center gap-4 align-items-center">
                     <Box sx = {{
@@ -63,7 +63,7 @@ const Users = () => {
                 </div>
             </div>
             
-            { usersState?.length !== 0 && <main className="users-main">
+            { users.length !== 0 && <main className="users-main">
                 { filtersOn && <div className="filter-container" >
                     <input type="text" placeholder="Pretrazite po imenu"/>
                     <label htmlFor="role-search"></label>
@@ -75,7 +75,7 @@ const Users = () => {
                 </div> }
                 <div className="container users-container-main">
                     {
-                        usersState?.map ( (e, i ) => (
+                        users?.map ( (e, i ) => (
                             <UserCard name = {e.name} email = {e.email} role = {e.role} id = {e._id} key = {e._id}/>
                         ))
                     }

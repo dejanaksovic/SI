@@ -187,7 +187,7 @@ const updateJob = async (req, res) => {
         })
     }
 
-    if(job.status === "DONE")
+    if(job.status === "ODRADJEN")
     return res.status(400).json({
         err: "Odradjeni poslovi ne mogu biti promenjeni"
     })
@@ -233,10 +233,12 @@ const deleteJob = async (req, res) => {
 
 const signWorker = async (req, res) => {
     const { jobId } = req.params
-    const { userId } = req.body
+    const userId = req.user._id
 
     let user;
     let job;
+
+    console.log(jobId, userId)
 
     if(!mongoose.isValidObjectId(jobId) || !mongoose.isValidObjectId(userId)) {
         return res.status(400).json({
@@ -278,7 +280,7 @@ const signWorker = async (req, res) => {
         })
     }
 
-    if(job.status !== "AVAILABLE") {
+    if(job.status !== "DOSTUPAN") {
         return res.status(400).json({
             err: "Posao nije dostupan, korisnik nije u mogucnosti da se prijavi"
         })

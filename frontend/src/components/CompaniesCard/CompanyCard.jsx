@@ -2,11 +2,16 @@ import { Grid, Typography, Button, ButtonGroup } from "@mui/material";
 import { useDeleteCompany } from "../../hooks/companies/useDeleteCompany";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../hooks/auth/useAuth";
+import { useEffect } from "react";
 
 const CompanyCard = ( { article } ) => {
     const { loading, deleteCompany } = useDeleteCompany()
     const createdAtDate = new Date(article.createdAt)
     const { user } = useAuth()
+
+    useEffect(() => {
+      console.log(article)
+    }, [])
 
     return ( 
           <Grid sx = {{
@@ -24,8 +29,8 @@ const CompanyCard = ( { article } ) => {
               <Typography
                   variant = "h4"> {article?.name} </Typography>
               <div className="company-card-contact">
-                  <p>Telefon: {article?.contact?.tel} </p>
-                  <p>Email: {article?.contact?.email}</p>
+                  <p>Telefon: {article?.tel} </p>
+                  <p>Email: {article?.email}</p>
               </div>
             </NavLink>
               { user?.user?.role === "ADMIN" || user?.user?.role === "BOSS" ? <ButtonGroup 

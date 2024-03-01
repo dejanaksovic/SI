@@ -25,6 +25,7 @@ import AuthContextProvider from "./context/authContext"
 import UserContextProvider from "./context/usersContext"
 import JobContextProvider from "./context/jobContext"
 import CompaniesContextProvider from "./context/companiesContext"
+import globalNotificationContext from "./context/globalNotificationContext"
 //Layouts
 import RootLayout from "./layouts/RootLayout"
 
@@ -35,6 +36,10 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+
+//ALERT
+import GlobalAlert from "./globals/GlobalAlert"
+import GlobalNotificationContextProvider from "./context/globalNotificationContext"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,15 +66,18 @@ const router = createBrowserRouter(
 function App() {
 
   return (
-    <AuthContextProvider>
-      <UserContextProvider>
-        <CompaniesContextProvider>
-          <JobContextProvider>
-            <RouterProvider router={router}></RouterProvider>
-          </JobContextProvider>
-        </CompaniesContextProvider>
-      </UserContextProvider>
-    </AuthContextProvider>
+    <GlobalNotificationContextProvider>
+      <AuthContextProvider>
+        <UserContextProvider>
+          <CompaniesContextProvider>
+            <JobContextProvider>
+              <GlobalAlert />
+              <RouterProvider router={router}></RouterProvider>
+            </JobContextProvider>
+          </CompaniesContextProvider>
+        </UserContextProvider>
+      </AuthContextProvider>
+    </GlobalNotificationContextProvider>
   )
 }
 

@@ -5,6 +5,7 @@ import { useGetCompanies } from "../../hooks/companies/useGetCompanies";
 import { useCompaniesContext } from "../../hooks/companies/useCompaniesContext";
 import { useEffect } from "react";
 import { useAuth } from "../../hooks/auth/useAuth";
+import { useSignJob } from "../../hooks/jobs/useSignJob";
 
 const JobsCard = ({job}) => {
     const { loading, deleteJob } = useDeleteJob()
@@ -12,12 +13,15 @@ const JobsCard = ({job}) => {
     const { getCompanies } = useGetCompanies()
     const { getCompanyById } = useCompaniesContext()
     const { user } = useAuth()
+    const { signUpForJob } = useSignJob();
 
     useEffect(() => {
         if(!getCompanyById(job.company))
             getCompanies(job.company)
 
-        console.log(job);
+        console.log("wants");
+        console.log(user.user);
+        console.log(job.wantedBy.includes(user.user._id));
     }, [])
 
     return ( 
@@ -54,8 +58,12 @@ const JobsCard = ({job}) => {
                 null
             }
 
-            { user?.user?.role === "USER" && job?.status === "DOSTUPAN" ? 
-                <Button color = "primary" variant = "contained">Preuzmi posao</Button> :
+            { user?.user?.role === "USER" && job?.status === "DOSTUPAN" && !job?.wantedBy.includes(user?.user?._id) ? 
+                <Button disabled = { loading } color = "primary" variant = "contained"
+                    onClick={() => {
+                        signUpForJob(job?._id)
+                    }}
+                >Preuzmi posao</Button> :
                 null 
             }
         </Box>

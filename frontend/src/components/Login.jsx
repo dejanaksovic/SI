@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLogin } from "../hooks/auth/useLogin";
+import { Button } from "@mui/material";
 
 const Login = () => {
     const [email, setEmail] = useState('')
@@ -9,11 +10,19 @@ const Login = () => {
     const handleLogin = async (email, password) => {
         await login(email, password)
     }
+
+    useEffect(() => {
+        const nav = document.querySelector(".main-nav")
+        nav.style.display = "none"
+        return () => {
+            nav.style.display = "block";
+        }
+    }, [])
     
     return (
     <div className="login">
         <div className="login-title">
-            <h1>Ulogujte se</h1>
+            <h2>Ulogujte se</h2>
         </div>
         <form className="login-form">
             <div className="form-group">
@@ -34,11 +43,11 @@ const Login = () => {
                             onChange={(e) => {setPassword(e.target.value)}}/>
                 </div>
             </div>
-            <button disabled={loading} onClick = { async (e) => {
+            <Button variant = "contained" disabled={loading} onClick = { async (e) => {
                 e.preventDefault()
                 handleLogin(email, password)
             }}
-            className="login-button">Pristupi</button>
+            className="login-button">Pristupi</Button>
             <p style={{color: "red", fontSize: "1rem"}} >{error}</p>
         </form>
     </div>

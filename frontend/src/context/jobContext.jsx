@@ -13,6 +13,13 @@ const JobContextProvider = ({children}) => {
         } )
     }
 
+    const setJobById = (job) => {
+        setJobs( prevJobs => {
+            const newJobs = prevJobs.filter( e => e._id !== job._id )
+            return [...newJobs, job]
+        })
+    }
+
     const deleteJobById = (id) => {
         setJobs( prevJobs => {
             return [...prevJobs.filter( job => job._id !== id )]
@@ -29,7 +36,7 @@ const JobContextProvider = ({children}) => {
     }
 
     return (
-    <jobContext.Provider value={{jobs, setJobs, addNewJob, deleteJobById, getFilteredJobs}}>
+    <jobContext.Provider value={{jobs, setJobs, addNewJob, deleteJobById, setJobById, getFilteredJobs}}>
         {children}
     </jobContext.Provider>
     )

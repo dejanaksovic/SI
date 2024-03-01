@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { useAuth } from './useAuth'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useAlertContext } from '../alert/useAlertContext'
 
 const useLogin = () => {
+    const { newMessage } = useAlertContext();
+
     const navigate = useNavigate()
-    const [error, setError] = useState(null)
     const [loading, setLoading] = useState(null)
 
     const { loginUser, url } = useAuth()
@@ -19,31 +21,30 @@ const useLogin = () => {
                 password
             })
 
-            setError(null)
+            newMessage(null, "success", "Uspesno logovanje")
+
             loginUser(response.data)
             navigate('/')
         }
 
         catch(err) {
-            console.log(err);
             if(err.response) {
-                console.log(err.response.data);
-                setError(err.response.data.err)
+                newMessage(err.response.data.err, "error", "Neuspesno logovanje");
             }
 
             else if(err.request) {
-                setError("Greska je sa nase strane, pokusajte kasnije ili kontaktirajte administratora")
+                newMessage("Greska je sa nase strane, pokusajte kasnije ili kontaktirajte administratora", "error", "Neuspesno logovanje")
             }
 
             else {
-                setError(`Greska: ${err.message}`)
+                newMessage("Greska je sa nase strane, pokusajte kasnije ili kontaktirajte administratora", "error", "Neuspesno logovanje")
            }
         }
 
         setLoading(false)
     }
 
-    return { error, loading, login}
+    return { loading, login}
 }
 
 export { useLogin }

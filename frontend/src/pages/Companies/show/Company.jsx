@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
 import { useJobContext } from "../../../hooks/jobs/useJobContext";
 import { useGetJobs } from "../../../hooks/jobs/useGetJobs";
-import { Add } from "@mui/icons-material";
 import { getRepresentDate } from "../../../utils/parseTime";
 
 const Company = () => {
@@ -66,7 +65,6 @@ const Company = () => {
                               navigate(`/jobs/add?id=${id}`)
                           }}
                       >
-                          <Add/>
                       </IconButton>
                     </Tooltip>
                 </Box>

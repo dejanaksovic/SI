@@ -4,11 +4,13 @@ import { useGetCompanies } from "../../../hooks/companies/useGetCompanies";
 import { useNavigate } from "react-router-dom";
 import { useCompaniesContext } from "../../../hooks/companies/useCompaniesContext";
 import { Grid, Button, Box } from "@mui/material";
+import { useAuth } from "../../../hooks/auth/useAuth";
 
 const Companies = () => {
 
     const { error, loading, getCompanies } = useGetCompanies()
     const { companies } = useCompaniesContext()
+    const { user } = useAuth();
     const navigate = useNavigate()
 
     useEffect( () => {
@@ -35,7 +37,7 @@ const Companies = () => {
                 } ) 
             }
         </Grid>
-        <Button
+        { user?.user?.role !== "USER" && <Button
          variant = "contained"
          color = "primary"
          sx = {{
@@ -46,7 +48,7 @@ const Companies = () => {
             navigate('/companies/add')
          } }>
             Dodaj kompaniju
-        </Button>
+        </Button>}
       </Box>
      );
 }

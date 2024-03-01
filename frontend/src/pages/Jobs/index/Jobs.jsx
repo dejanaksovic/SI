@@ -4,11 +4,13 @@ import { useGetJobs } from "../../../hooks/jobs/useGetJobs";
 import { useJobContext } from "../../../hooks/jobs/useJobContext";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, Container } from "@mui/material";
+import { useAuth } from "../../../hooks/auth/useAuth";
 
 const Jobs = () => {
     const { error, loading, getJobs } = useGetJobs()
     const navigate = useNavigate()
     const { jobs } = useJobContext()
+    const { user } = useAuth();
 
     useEffect( () => {
             getJobs()
@@ -33,7 +35,7 @@ const Jobs = () => {
     : null  
     } 
     </Container>
-    <Button
+    { user?.user?.role !== "USER" && <Button
         sx = {{
             display: 'block',
             margin: '0 auto',
@@ -43,7 +45,7 @@ const Jobs = () => {
         onClick={ (e) => {
         e.preventDefault()
         navigate('/jobs/add')
-    }}>Kreiraj posao</Button>
+    }}>Kreiraj posao</Button>}
     </Box>);
 }
  

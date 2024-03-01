@@ -57,7 +57,7 @@ const Company = () => {
                         ':hover': {
                             color: 'secondary.main'
                         }
-                      }} variant = "body1">{e.type.charAt(0).toUpperCase() + e.type.slice(1)}</Typography>
+                      }} variant = "body1">{e.type.charAt(0).toUpperCase() + e.type.slice(1)} ({e?.status})</Typography>
                     </NavLink>)}
                     <Tooltip title = "Dodaj novi posao">
                       <IconButton 

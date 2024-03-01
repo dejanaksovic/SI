@@ -34,6 +34,7 @@ const JobsCard = ({job}) => {
             <NavLink to = {`/jobs/${job._id}`}>
               <Typography variant = "p"> { job.status } </Typography>
               <Typography variant = "h4"> {job.type.charAt(0).toUpperCase()+job.type.slice(1)} </Typography>
+              <Typography variant = "p" color = {"primary"}> {job.wantedBy.length !== 0 && user?.user?.role !== "USER" ? "Ima prijavljenih" : null} </Typography>
               <Box>
                   <Typography>{getCompanyById(job.company)?.name}</Typography>
               </Box>
